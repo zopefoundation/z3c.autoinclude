@@ -5,7 +5,7 @@ long_description = (open('README.txt').read()
                     open('CHANGES.txt').read())
 
 setup(name='z3c.autoinclude',
-      version='0.3dev',
+      version='0.3.1',
       description="Automatically include ZCML",
       long_description=long_description,
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
@@ -25,7 +25,6 @@ setup(name='z3c.autoinclude',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'PasteScript',
           'setuptools',
           'zope.dottedname',
 	  'zope.interface',
