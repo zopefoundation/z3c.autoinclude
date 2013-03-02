@@ -1,7 +1,7 @@
 Overview
 ========
 
-This package adds two new ZCML directives to automatically detect 
+This package adds two new ZCML directives to automatically detect
 ZCML files to include: "includeDependencies" and "includePlugins".
 
 When you want to include a Zope-based package in your application, you
