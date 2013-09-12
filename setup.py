@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-__version__ = '0.3.5dev'
+__version__ = '0.3.5'
 
 setup(
     name='z3c.autoinclude',
