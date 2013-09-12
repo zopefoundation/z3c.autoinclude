@@ -1,7 +1,7 @@
 Changes
 =======
 
-0.3.5 (unreleased)
+0.3.5 (2013-09-12)
 ------------------
 
 * If a module cannot be resolved, but raises ``ImportError``, log a
