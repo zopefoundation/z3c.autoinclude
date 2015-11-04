@@ -4,7 +4,7 @@ Changes
 0.3.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Standardize namespace __init__
 
 
 0.3.5 (2013-09-12)
