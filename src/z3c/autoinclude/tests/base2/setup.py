@@ -16,6 +16,7 @@ setup(name='base2',
       license='',
       package_data = {'': ['*.zcml',]},
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+      namespace_packages=['base2'],
       include_package_data=True,
       zip_safe=False,
       install_requires=[
