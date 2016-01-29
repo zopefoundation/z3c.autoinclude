@@ -4,7 +4,9 @@ Changes
 0.3.6 (unreleased)
 ------------------
 
-- Standardize namespace __init__
+- Standardize namespace __init__.
+
+- Fix broken tests.
 
 
 0.3.5 (2013-09-12)
