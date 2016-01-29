@@ -1,7 +1,7 @@
 Changes
 =======
 
-0.3.6 (unreleased)
+0.3.6 (2016-01-29)
 ------------------
 
 - Standardize namespace __init__.
