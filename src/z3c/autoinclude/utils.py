@@ -77,6 +77,8 @@ def distributionForDottedName(package_dottedname):
     Then it needs to be profiled.
     """
     valid_dists_for_package = []
+    partial_matches = []
+    full_matches = []
     for path in sys.path:
         dists = find_distributions(path, True)
         for dist in dists:
@@ -88,14 +90,18 @@ def distributionForDottedName(package_dottedname):
                 #continue
             if package_dottedname not in packages:
                 continue
-            if dist.key.lower() != package_dottedname.lower():
+            if dist.key.lower() == package_dottedname.lower():
+                full_matches.append((dist, ns_packages))
+            else:
                 if not dist.key.lower().startswith(package_dottedname.lower()):
                     continue
                 # make sure that the dottedname bla.blubb
                 # matches bla.blubb.xx but not bla.blubber
                 if dist.key[len(package_dottedname)] != '.':
                     continue
-            valid_dists_for_package.append((dist, ns_packages))
+                partial_matches.append((dist, ns_packages))
+
+    valid_dists_for_package = full_matches + partial_matches
 
     if len(valid_dists_for_package) == 0:
         raise LookupError("No distributions found for package `%s`; are you sure it is importable?" % package_dottedname)
