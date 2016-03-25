@@ -101,7 +101,7 @@ def distributionForDottedName(package_dottedname):
                     continue
                 partial_matches.append((dist, ns_packages))
 
-    valid_dists_for_package = full_matches + partial_matches
+    valid_dists_for_package = full_matches + sorted(partial_matches)
 
     if len(valid_dists_for_package) == 0:
         raise LookupError("No distributions found for package `%s`; are you sure it is importable?" % package_dottedname)
