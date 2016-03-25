@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 version = '0.1'
 
-setup(name='XYZPackage',
+setup(name='x.y.z',
       version=version,
       description="",
       long_description="""\

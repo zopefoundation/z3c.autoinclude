@@ -3,7 +3,7 @@ import sys, os
 
 version = '0.0'
 
-setup(name='base2_plug',
+setup(name='A',
       version=version,
       description="",
       long_description="""\
@@ -15,16 +15,15 @@ setup(name='base2_plug',
       url='',
       license='',
       package_data = {'': ['*.zcml',]},
-      packages=find_packages(),
-      namespace_packages=['base2'],
+      packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'setuptools',
-          'TestDirective',
+        'b.c',
+	'z3c.autoinclude',
+	'TestDirective',
       ],
       entry_points="""
-      [z3c.autoinclude.plugin]
-      target = base2
+      # -*- Entry points: -*-
       """,
       )

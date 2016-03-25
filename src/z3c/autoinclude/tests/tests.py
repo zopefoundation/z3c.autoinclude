@@ -5,13 +5,13 @@ import unittest
 from zc.buildout import testing
 
 projects_dir = os.path.dirname(__file__)
-    
+
 # this is the list of test packages that we'll temporarily install
 # for the duration of the tests; you MUST add your test package name
 # to this list if you want it to be available for import in doctests!
-test_packages = ['APackage', 'BCPackage', 'XYZPackage',
-                 'SiblingPackage', 'BasePackage', 'FooPackage',
-                 'base2', 'base2_plug', 'TestDirective',
+test_packages = ['A', 'b.c', 'x.y.z',
+                 'f.g', 'BasePackage', 'foo',
+                 'base2', 'base2.plug', 'TestDirective',
                  'enolp.ppa.foo', 'enolp.ppa.bar']
 
 
@@ -52,7 +52,7 @@ def testSetUp(test):
     install test packages so that they can be imported
     and their egg info examined in test runs
     """
-    
+
     testing.buildoutSetUp(test)
     import tempfile
     target_dir = tempfile.mkdtemp('.z3c.autoinclude.test-installs')

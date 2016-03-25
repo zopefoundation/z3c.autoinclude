@@ -4,7 +4,9 @@ Changes
 0.3.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add support for pip installed packages. This removes support
+  for packages those names are different to the package paths
+  they provide.
 
 
 0.3.6 (2016-01-29)
