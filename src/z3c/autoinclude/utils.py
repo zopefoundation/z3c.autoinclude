@@ -82,12 +82,19 @@ def distributionForDottedName(package_dottedname):
         for dist in dists:
             if not isUnzippedEgg(dist.location):
                 continue
-            packages = find_packages(dist.location)
             ns_packages = namespaceDottedNames(dist)
+            packages = find_packages(dist.location)
             #if package_dottedname in ns_packages:
                 #continue
             if package_dottedname not in packages:
                 continue
+            if dist.key.lower() != package_dottedname.lower():
+                if not dist.key.lower().startswith(package_dottedname.lower()):
+                    continue
+                # make sure that the dottedname bla.blubb
+                # matches bla.blubb.xx but not bla.blubber
+                if dist.key[len(package_dottedname)] != '.':
+                    continue
             valid_dists_for_package.append((dist, ns_packages))
 
     if len(valid_dists_for_package) == 0:
@@ -154,6 +161,7 @@ def isUnzippedEgg(path):
     """
     return os.path.isdir(path)
 
+CACHE = {}
 ### cargo-culted from setuptools 0.6c9's __init__.py;
 #   importing setuptools is unsafe, but i can't find any
 #   way to get the information that find_packages provides
@@ -169,17 +177,22 @@ def find_packages(where='.', exclude=()):
     names, such that 'foo.*' will exclude all subpackages of 'foo' (but not
     'foo' itself).
     """
+    original_where = where
+    if where in CACHE:
+        return CACHE[where]
     out = []
     stack=[(convert_path(where), '')]
     while stack:
         where,prefix = stack.pop(0)
+        os.listdir(where)
         for name in os.listdir(where):
             fn = os.path.join(where,name)
-            if ('.' not in name and os.path.isdir(fn) and
-                os.path.isfile(os.path.join(fn,'__init__.py'))
-            ):
-                out.append(prefix+name); stack.append((fn,prefix+name+'.'))
+            if ('.' not in name and os.path.isdir(fn)):
+                stack.append((fn, prefix+name+'.'))
+                if os.path.isfile(os.path.join(fn, '__init__.py')):
+                    out.append(prefix+name)
     for pat in list(exclude)+['ez_setup']:
         from fnmatch import fnmatchcase
         out = [item for item in out if not fnmatchcase(item,pat)]
+    CACHE[original_where] = out
     return out

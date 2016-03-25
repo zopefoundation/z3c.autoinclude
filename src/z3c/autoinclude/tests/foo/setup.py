@@ -3,7 +3,7 @@ import sys, os
 
 version = '0.0'
 
-setup(name='FooPackage',
+setup(name='foo',
       version=version,
       description="",
       long_description="""\

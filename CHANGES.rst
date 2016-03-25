@@ -1,10 +1,12 @@
 Changes
 =======
 
-0.3.8 (unreleased)
+0.4.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add support for pip installed packages. This removes support
+  for packages those names are different to the package paths
+  they provide.
 
 
 0.3.7 (2016-08-24)

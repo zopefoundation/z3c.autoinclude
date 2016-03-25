@@ -16,7 +16,7 @@ themselves as plugging into that module via entry points::
 
     >>> from z3c.autoinclude.plugin import find_plugins
     >>> sorted(find_plugins('basepackage')) # doctest: +IGNORECASE
-    [FooPackage 0.0 (...), TestDirective 0.0 (...)]
+    [foo 0.0 (...), TestDirective 0.0 (...)]
 
 Armed with a valid module name we can find the ZCML files within it
 which must be loaded::
