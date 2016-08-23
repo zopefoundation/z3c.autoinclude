@@ -92,7 +92,7 @@ def distributionForDottedName(package_dottedname):
         raise LookupError("No distributions found for package `%s`; are you sure it is importable?" % package_dottedname)
 
     if len(valid_dists_for_package) > 1:
-        non_namespaced_dists = list(filter(lambda x: len(x[1]) is 0, valid_dists_for_package))
+        non_namespaced_dists = [x for x in valid_dists_for_package if x[1] is 0]
         if len(non_namespaced_dists) == 0:
             # if we only have namespace packages at this point, 'foo.bar' and 'foo.baz', while looking for 'foo',
             # we can just select the first because the choice has no effect
