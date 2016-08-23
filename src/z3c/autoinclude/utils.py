@@ -94,7 +94,9 @@ def distributionForDottedName(package_dottedname):
         raise LookupError("No distributions found for package `%s`; are you sure it is importable?" % package_dottedname)
 
     if len(valid_dists_for_package) > 1:
-        non_namespaced_dists = [x for x in valid_dists_for_package if len(x[1]) is 0]
+        non_namespaced_dists = [(dist, ns_packages)
+                                for dist, ns_packages
+                                in valid_dists_for_package if len(ns_packages) == 0]
         if len(non_namespaced_dists) == 0:
             # if we only have namespace packages at this point,
             # 'foo.bar' and 'foo.baz', while looking for 'foo', we can
@@ -105,6 +107,11 @@ def distributionForDottedName(package_dottedname):
                 for dist, _ in valid_dists_for_package:
                     if dist.project_name == package_dottedname:
                         return dist
+
+            # Otherwise, to be deterministic (because the order depends on both sys.path
+            # and `find_distributions`) we will sort them by project_name and return
+            # the first value.
+            valid_dists_for_package.sort(key=lambda dist_ns: dist_ns[0].project_name)
 
             return valid_dists_for_package[0][0]
 
