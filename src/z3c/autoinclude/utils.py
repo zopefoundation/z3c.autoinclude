@@ -72,8 +72,8 @@ def distributionForPackage(package):
 def distributionForDottedName(package_dottedname):
     """
     This function is ugly and probably slow. It needs to be heavily
-    commented, it needs narrative doctests, and it needs some broad
-    explanation. It fails in some namespace cases (see utils.txt).
+    commented, it needs narrative doctests, it needs some broad
+    explanation, and it is arbitrary in some namespace cases.
     Then it needs to be profiled.
     """
     valid_dists_for_package = []
