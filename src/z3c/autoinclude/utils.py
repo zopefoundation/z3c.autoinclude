@@ -1,3 +1,5 @@
+from __future__ import absolute_import, print_function
+
 import os
 from pkg_resources import find_distributions
 from pprint import pformat
@@ -92,10 +94,18 @@ def distributionForDottedName(package_dottedname):
         raise LookupError("No distributions found for package `%s`; are you sure it is importable?" % package_dottedname)
 
     if len(valid_dists_for_package) > 1:
-        non_namespaced_dists = [x for x in valid_dists_for_package if x[1] is 0]
+        non_namespaced_dists = [x for x in valid_dists_for_package if len(x[1]) is 0]
         if len(non_namespaced_dists) == 0:
-            # if we only have namespace packages at this point, 'foo.bar' and 'foo.baz', while looking for 'foo',
-            # we can just select the first because the choice has no effect
+            # if we only have namespace packages at this point,
+            # 'foo.bar' and 'foo.baz', while looking for 'foo', we can
+            # just select the first because the choice has no effect.
+            # However, if possible, we prefer to select the one that matches the package name
+            # if it's the "root" namespace
+            if '.' not in package_dottedname:
+                for dist, _ in valid_dists_for_package:
+                    if dist.project_name == package_dottedname:
+                        return dist
+
             return valid_dists_for_package[0][0]
 
         valid_dists_for_package = non_namespaced_dists ### if we have packages 'foo', 'foo.bar', and 'foo.baz', the correct one is 'foo'.

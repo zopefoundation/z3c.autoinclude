@@ -6,13 +6,13 @@ distributionForPackage is a function that takes a module object
 and returns the setuptools distribution object that contains
 the module.
 
-It *should* find the correct distribution for a package whose namespace
-is extended by other packages in the environment. However it does *not*::
+It should find the correct distribution for a package whose namespace
+is extended by other packages in the environment::
 
     >>> from z3c.autoinclude.utils import distributionForPackage
     >>> import base2
     >>> distributionForPackage(base2)
-    base2-plug 0.0 (...base2_plug-0.0...egg)
+    base2 0.0 (...base2-0.0...egg)
 
 It should also find the correct distribution for namespace packages,
 even if the namespace being extended is a module defined in another
