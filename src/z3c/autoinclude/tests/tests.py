@@ -1,11 +1,14 @@
+import re
 import os
 import doctest
 import unittest
 
 from zc.buildout import testing
+from zope.testing import renormalizing
+
 
 projects_dir = os.path.dirname(__file__)
-    
+
 # this is the list of test packages that we'll temporarily install
 # for the duration of the tests; you MUST add your test package name
 # to this list if you want it to be available for import in doctests!
@@ -52,7 +55,7 @@ def testSetUp(test):
     install test packages so that they can be imported
     and their egg info examined in test runs
     """
-    
+
     testing.buildoutSetUp(test)
     import tempfile
     target_dir = tempfile.mkdtemp('.z3c.autoinclude.test-installs')
@@ -68,12 +71,19 @@ def testTearDown(test):
 
 IGNORECASE = doctest.register_optionflag('IGNORECASE')
 
-class IgnoreCaseChecker(doctest.OutputChecker):
+class IgnoreCaseChecker(renormalizing.RENormalizing, object):
+    def __init__(self):
+        super(IgnoreCaseChecker, self).__init__([
+            # Python 3 drops the u'' prefix on unicode strings
+            (re.compile(r"u('[^']*')"), r"\1"),
+            # Python 3 adds module name to exceptions
+            (re.compile("pkg_resources.DistributionNotFound"), r"DistributionNotFound"),
+        ])
     def check_output(self, want, got, optionflags):
         if optionflags & IGNORECASE:
             want, got = want.lower(), got.lower()
             #print repr(want), repr(got), optionflags, IGNORECASE
-        return doctest.OutputChecker.check_output(self, want, got, optionflags)
+        return super(IgnoreCaseChecker, self).check_output(want, got, optionflags)
 
 def test_suite():
 

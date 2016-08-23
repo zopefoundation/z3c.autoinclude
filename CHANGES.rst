@@ -4,7 +4,7 @@ Changes
 0.3.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add support for Python 3.4, Python 3.5 and PyPy.
 
 
 0.3.6 (2016-01-29)
