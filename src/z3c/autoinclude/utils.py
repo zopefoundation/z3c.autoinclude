@@ -1,3 +1,5 @@
+from __future__ import absolute_import, print_function
+
 import os
 from pkg_resources import find_distributions
 from pprint import pformat
@@ -39,7 +41,7 @@ class ZCMLInfo(dict):
         for zcml_group in zcml_to_look_for:
             self[zcml_group] = []
 
-    
+
 def subpackageDottedNames(package_path, ns_dottedname=None):
     # we do not look for subpackages in zipped eggs
     if not isUnzippedEgg(package_path):
@@ -69,8 +71,9 @@ def distributionForPackage(package):
 
 def distributionForDottedName(package_dottedname):
     """
-    This function is ugly and probably slow.
-    It needs to be heavily commented, it needs narrative doctests, and it needs some broad explanation.
+    This function is ugly and probably slow. It needs to be heavily
+    commented, it needs narrative doctests, it needs some broad
+    explanation, and it is arbitrary in some namespace cases.
     Then it needs to be profiled.
     """
     valid_dists_for_package = []
@@ -89,12 +92,27 @@ def distributionForDottedName(package_dottedname):
 
     if len(valid_dists_for_package) == 0:
         raise LookupError("No distributions found for package `%s`; are you sure it is importable?" % package_dottedname)
-    
+
     if len(valid_dists_for_package) > 1:
-        non_namespaced_dists = filter(lambda x: len(x[1]) is 0, valid_dists_for_package)
+        non_namespaced_dists = [(dist, ns_packages)
+                                for dist, ns_packages
+                                in valid_dists_for_package if len(ns_packages) == 0]
         if len(non_namespaced_dists) == 0:
-            # if we only have namespace packages at this point, 'foo.bar' and 'foo.baz', while looking for 'foo',
-            # we can just select the first because the choice has no effect
+            # if we only have namespace packages at this point,
+            # 'foo.bar' and 'foo.baz', while looking for 'foo', we can
+            # just select the first because the choice has no effect.
+            # However, if possible, we prefer to select the one that matches the package name
+            # if it's the "root" namespace
+            if '.' not in package_dottedname:
+                for dist, _ in valid_dists_for_package:
+                    if dist.project_name == package_dottedname:
+                        return dist
+
+            # Otherwise, to be deterministic (because the order depends on both sys.path
+            # and `find_distributions`) we will sort them by project_name and return
+            # the first value.
+            valid_dists_for_package.sort(key=lambda dist_ns: dist_ns[0].project_name)
+
             return valid_dists_for_package[0][0]
 
         valid_dists_for_package = non_namespaced_dists ### if we have packages 'foo', 'foo.bar', and 'foo.baz', the correct one is 'foo'.
@@ -126,7 +144,7 @@ def namespaceDottedNames(dist):
     except KeyError:
         ns_dottednames = []
     return ns_dottednames
-    
+
 def isUnzippedEgg(path):
     """
     Check whether a filesystem path points to an unzipped egg; z3c.autoinclude

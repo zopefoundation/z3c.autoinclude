@@ -3,6 +3,11 @@ from setuptools import setup, find_packages
 version = '0.3.7.dev0'
 __version__ = version
 
+TESTS_REQUIRE = [
+    "zc.buildout",
+    "zope.testing",
+]
+
 setup(
     name='z3c.autoinclude',
     version=__version__,
@@ -12,6 +17,11 @@ setup(
     classifiers=[
         "Framework :: Zope3",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.4"
+        "Programming Language :: Python :: 3.5"
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Programming Language :: Python :: Implementation :: PyPy",
     ],
     keywords='',
     author='Zope Foundation and Contributors',
@@ -31,7 +41,10 @@ setup(
         'zope.schema',
         'zc.buildout',
     ],
-    extras_require={'test': ['zc.buildout', 'zope.testing']},
+    tests_require=TESTS_REQUIRE,
+    extras_require={
+        'test': TESTS_REQUIRE,
+    },
     entry_points="""
     [console_scripts]
     autoinclude-test = z3c.autoinclude.tests.tests:interactive_testing_env

@@ -34,7 +34,7 @@ We can adapt a distribution to a DependencyFinder::
     >>> from z3c.autoinclude.dependency import DependencyFinder
     >>> a_include_finder = DependencyFinder(a_dist)
     >>> b_include_finder = DependencyFinder(b_dist)
-    
+
     >>> import x.y.z
     >>> xyz_dist = distributionForPackage(x.y.z)
     >>> xyz_include_finder = DependencyFinder(xyz_dist)
@@ -86,7 +86,7 @@ that it depends on that have ``configure.zcml`` or ``meta.zcml``.
 Note that the individual lists within ``includableInfo`` preserve the
 package order defined in ``setup.py``::
 
-    >>> a_include_finder.includableInfo(['configure.zcml', 'meta.zcml'])
+    >>> pprint(a_include_finder.includableInfo(['configure.zcml', 'meta.zcml']))
     {'configure.zcml': ['b.c'], 'meta.zcml': ['z3c.autoinclude', 'testdirective']}
 
 For a nested namespace package with two siblings ``SiblingPackage``,
@@ -126,7 +126,7 @@ order::
     >>> dummy = xmlconfig.file(resource_filename('a', 'configure.zcml'),
     ...                        package=a)
     >>> from testdirective.zcml import test_log
-    >>> pprint(test_log)
+    >>> pprint(test_log, width=30)
     [u'f.g meta has been loaded',
      u'f.h has been loaded',
      u'BCPackage has been loaded']
