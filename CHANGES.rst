@@ -6,6 +6,16 @@ Changes
 
 - Add support for Python 3.4, Python 3.5 and PyPy.
 
+- When choosing between multiple (equivalent) packages that offer the
+  same namespace and there are no namespace-only packages, choose
+  either the one whose project name matches the namespace (if there
+  are no dots in the namespace), or the first when sorted by project
+  name. Previously, the first in the list generated from the
+  combination of iterating ``sys.path`` and asking ``pkg_resources``
+  for distributions was picked. This should increase test
+  repeatability but is not expected to be otherwise noticeable. See
+  `PR 3 <https://github.com/zopefoundation/z3c.autoinclude/pull/3>`_
+  for discussion.
 
 0.3.6 (2016-01-29)
 ------------------
@@ -42,8 +52,8 @@ Changes
 0.3.2 (2009-12-19)
 ------------------
 
-* Let `subpackageDottedNames` always return a sorted list of package names as
-  `os.listdir` doesn't on some platforms.
+* Let ``subpackageDottedNames`` always return a sorted list of package names as
+  ``os.listdir`` doesn't on some platforms.
 
 0.3.1 (2009-05-04)
 ------------------
@@ -68,12 +78,12 @@ Changes
 * Removed the deprecated ``autoinclude`` and ``autoincludeOverrides``
   directives.
 
-* Allow autoinclusion to be disabled by setting
-  `os.environ['Z3C_AUTOINCLUDE_PLUGINS_DISABLED']` and
-  `os.environ['Z3C_AUTOINCLUDE_DEPENDENCIES_DISABLED']`, potentially useful for
-  test runners or debugging sessions. See
-  http://lists.plone.org/pipermail/framework-team/2009-February/002689.html for
-  discussion.
+* `Allow autoinclusion to be disabled <http://lists.plone.org/pipermail/plone-framework-team/2009-February/005938.html>`_ by setting
+  ``os.environ['Z3C_AUTOINCLUDE_PLUGINS_DISABLED']`` and
+  ``os.environ['Z3C_AUTOINCLUDE_DEPENDENCIES_DISABLED']``, potentially useful for
+  test runners or debugging sessions.
+
+For context on many of these changes, see `the PLIP #247 discussion <http://lists.plone.org/pipermail/plone-framework-team/2009-January/005823.html>`_.
 
 0.2.2 (2008-04-22)
 ------------------
