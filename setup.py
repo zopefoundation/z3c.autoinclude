@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.3.7'
+version = '0.3.8.dev0'
 __version__ = version
 
 TESTS_REQUIRE = [
