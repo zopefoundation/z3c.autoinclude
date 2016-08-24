@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.3.7.dev0'
+version = '0.3.7'
 __version__ = version
 
 TESTS_REQUIRE = [
@@ -18,8 +18,8 @@ setup(
         "Framework :: Zope3",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.4"
-        "Programming Language :: Python :: 3.5"
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
