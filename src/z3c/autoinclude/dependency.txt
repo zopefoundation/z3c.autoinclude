@@ -126,10 +126,8 @@ order::
     >>> dummy = xmlconfig.file(resource_filename('a', 'configure.zcml'),
     ...                        package=a)
     >>> from testdirective.zcml import test_log
-    >>> pprint(test_log, width=30)
-    [u'f.g meta has been loaded',
-     u'f.h has been loaded',
-     u'BCPackage has been loaded']
+    >>> pprint(test_log)
+    [u'f.g meta has been loaded', u'f.h has been loaded', u'b.c has been loaded']
 
 There is also a directive for including overrides, which calls
 ``autoIncludeOverridesDirective``; however, I have no idea how to test

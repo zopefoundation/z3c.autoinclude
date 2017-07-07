@@ -99,8 +99,13 @@ def distributionForDottedName(package_dottedname):
                 continue
             ns_packages = namespaceDottedNames(dist)
             packages = find_packages(dist.location)
+<<<<<<< HEAD
             # if package_dottedname in ns_packages:
             #   continue
+=======
+            #if package_dottedname in ns_packages:
+                #continue
+>>>>>>> 2018b6eae6c3ec3a5968b56167753f388710b8ac
             if package_dottedname not in packages:
                 continue
             if dist.key.lower() == package_dottedname.lower():
@@ -174,7 +179,10 @@ def namespaceDottedNames(dist):
         ns_dottednames = []
     return ns_dottednames
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2018b6eae6c3ec3a5968b56167753f388710b8ac
 def isUnzippedEgg(path):
     """
     Check whether a filesystem path points to an unzipped egg; z3c.autoinclude
@@ -184,10 +192,20 @@ def isUnzippedEgg(path):
     """
     return os.path.isdir(path)
 
+<<<<<<< HEAD
 
 CACHE = {}
 
 
+=======
+CACHE = {}
+### cargo-culted from setuptools 0.6c9's __init__.py;
+#   importing setuptools is unsafe, but i can't find any
+#   way to get the information that find_packages provides
+#   using pkg_resources and i can't figure out a way to
+#   avoid needing it.
+from distutils.util import convert_path
+>>>>>>> 2018b6eae6c3ec3a5968b56167753f388710b8ac
 def find_packages(where='.', exclude=()):
     """Return a list all Python packages found within directory 'where'
 
@@ -203,6 +221,7 @@ def find_packages(where='.', exclude=()):
     out = []
     stack = [(convert_path(where), '')]
     while stack:
+<<<<<<< HEAD
         where, prefix = stack.pop(0)
         os.listdir(where)
         for name in os.listdir(where):
@@ -214,5 +233,18 @@ def find_packages(where='.', exclude=()):
     for pat in list(exclude) + ['ez_setup']:
         from fnmatch import fnmatchcase
         out = [item for item in out if not fnmatchcase(item, pat)]
+=======
+        where,prefix = stack.pop(0)
+        os.listdir(where)
+        for name in os.listdir(where):
+            fn = os.path.join(where,name)
+            if ('.' not in name and os.path.isdir(fn)):
+                stack.append((fn, prefix+name+'.'))
+                if os.path.isfile(os.path.join(fn, '__init__.py')):
+                    out.append(prefix+name)
+    for pat in list(exclude)+['ez_setup']:
+        from fnmatch import fnmatchcase
+        out = [item for item in out if not fnmatchcase(item,pat)]
+>>>>>>> 2018b6eae6c3ec3a5968b56167753f388710b8ac
     CACHE[original_where] = out
     return out
