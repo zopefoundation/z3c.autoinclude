@@ -25,4 +25,5 @@ dist/
 *.egg-info/
 .tox/
 !.gitattributes
+!.coveragerc
 /reports/
