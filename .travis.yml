@@ -1,14 +1,19 @@
 language: python
 sudo: false
+
 python:
     - 2.7
-    - pypy
     - 3.4
     - 3.5
+    - 3.6
+    - pypy
+
 install:
     - python bootstrap.py
     - bin/buildout
+
 script:
     - bin/test -v1
+
 notifications:
     email: false
