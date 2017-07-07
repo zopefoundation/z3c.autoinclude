@@ -14,10 +14,19 @@ projects_dir = os.path.dirname(__file__)
 # this is the list of test packages that we'll temporarily install
 # for the duration of the tests; you MUST add your test package name
 # to this list if you want it to be available for import in doctests!
-test_packages = ['A', 'b.c', 'x.y.z',
-                 'f.g', 'BasePackage', 'foo',
-                 'base2', 'base2.plug', 'TestDirective',
-                 'enolp.ppa.foo', 'enolp.ppa.bar']
+test_packages = [
+    'A',
+    'b.c',
+    'x.y.z',
+    'f.g',
+    'BasePackage',
+    'foo',
+    'base2',
+    'base2.plug',
+    'TestDirective',
+    'enolp.ppa.foo',
+    'enolp.ppa.bar'
+]
 
 
 def install_projects(projects, target_dir):
@@ -27,8 +36,8 @@ def install_projects(projects, target_dir):
         dist_dir = os.path.join(project_dir, 'dist')
         if os.path.isdir(dist_dir):
             testing.rmdir(dist_dir)
-        dummy = testing.system("%s setup %s bdist_egg" % (
-                os.path.join('bin', 'buildout'), project_dir))
+        testing.system("%s setup %s bdist_egg" % (
+            os.path.join('bin', 'buildout'), project_dir))
         links.append(dist_dir)
 
     new_working_set = install(projects, target_dir, links=links,
@@ -41,7 +50,7 @@ def install_projects(projects, target_dir):
 
 
 def interactive_testing_env():
-    """ an interactive debugger with the testing environment set up for free """
+    """an interactive debugger with the testing environment set up for free """
 
     import tempfile
     target_dir = tempfile.mkdtemp('.z3c.autoinclude.test-installs')
@@ -71,19 +80,25 @@ def testTearDown(test):
 
 IGNORECASE = doctest.register_optionflag('IGNORECASE')
 
+
 class IgnoreCaseChecker(renormalizing.RENormalizing, object):
     def __init__(self):
         super(IgnoreCaseChecker, self).__init__([
             # Python 3 drops the u'' prefix on unicode strings
             (re.compile(r"u('[^']*')"), r"\1"),
             # Python 3 adds module name to exceptions
-            (re.compile("pkg_resources.DistributionNotFound"), r"DistributionNotFound"),
+            (re.compile("pkg_resources.DistributionNotFound"),
+             r"DistributionNotFound"),
         ])
+
     def check_output(self, want, got, optionflags):
         if optionflags & IGNORECASE:
             want, got = want.lower(), got.lower()
-            #print repr(want), repr(got), optionflags, IGNORECASE
-        return super(IgnoreCaseChecker, self).check_output(want, got, optionflags)
+            # print repr(want), repr(got), optionflags, IGNORECASE
+        return super(IgnoreCaseChecker, self).check_output(want,
+                                                           got,
+                                                           optionflags)
+
 
 def test_suite():
 
@@ -93,14 +108,15 @@ def test_suite():
                                  '../plugin.txt',
                                  setUp=testSetUp,
                                  tearDown=testTearDown,
-                                 globs={'pprint':pprint},
+                                 globs={'pprint': pprint},
                                  checker=IgnoreCaseChecker(),
                                  optionflags=doctest.ELLIPSIS)
 
     return unittest.TestSuite((suite,))
 
+
 if __name__ == '__main__':
     import zope.testing.testrunner
     zope.testing.testrunner.run([
-  '--test-path', '/home/egj/z3c.autoinclude/src',
-  ])
+        '--test-path', '/home/egj/z3c.autoinclude/src',
+    ])
