@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.3.8.dev0'
+version = '0.4.0.dev0'
 __version__ = version
 
 TESTS_REQUIRE = [
@@ -20,6 +20,7 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
