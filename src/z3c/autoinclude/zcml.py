@@ -1,15 +1,17 @@
-from zope.interface import Interface
-from zope.configuration.xmlconfig import include, includeOverrides
-from zope.configuration.fields import GlobalObject
-from zope.dottedname.resolve import resolve
-from zope.schema import BytesLine
-
 from z3c.autoinclude import api
 from z3c.autoinclude.dependency import DependencyFinder
-from z3c.autoinclude.utils import distributionForPackage
 from z3c.autoinclude.plugin import PluginFinder
+from z3c.autoinclude.utils import distributionForPackage
+from zope.configuration.fields import GlobalObject
+from zope.configuration.xmlconfig import include
+from zope.configuration.xmlconfig import includeOverrides
+from zope.dottedname.resolve import resolve
+from zope.interface import Interface
+from zope.schema import BytesLine
 
 import logging
+
+
 log = logging.getLogger("z3c.autoinclude")
 
 def includeZCMLGroup(_context, info, filename, override=False):

@@ -1,9 +1,17 @@
-from __future__ import absolute_import, print_function
-
-import os
+from __future__ import absolute_import
+from __future__ import print_function
+### cargo-culted from setuptools 0.6c9's __init__.py;
+#   importing setuptools is unsafe, but i can't find any
+#   way to get the information that find_packages provides
+#   using pkg_resources and i can't figure out a way to
+#   avoid needing it.
+from distutils.util import convert_path
 from pkg_resources import find_distributions
 from pprint import pformat
+
+import os
 import sys
+
 
 class DistributionManager(object):
     def __init__(self, dist):
@@ -168,12 +176,6 @@ def isUnzippedEgg(path):
     return os.path.isdir(path)
 
 CACHE = {}
-### cargo-culted from setuptools 0.6c9's __init__.py;
-#   importing setuptools is unsafe, but i can't find any
-#   way to get the information that find_packages provides
-#   using pkg_resources and i can't figure out a way to
-#   avoid needing it.
-from distutils.util import convert_path
 def find_packages(where='.', exclude=()):
     """Return a list all Python packages found within directory 'where'
 

@@ -1,10 +1,12 @@
-import re
-import os
-import doctest
-import unittest
-
+from pkg_resources import working_set
 from zc.buildout import testing
+from zc.buildout.easy_install import install
 from zope.testing import renormalizing
+
+import doctest
+import os
+import re
+import unittest
 
 
 projects_dir = os.path.dirname(__file__)
@@ -18,8 +20,6 @@ test_packages = ['A', 'b.c', 'x.y.z',
                  'enolp.ppa.foo', 'enolp.ppa.bar']
 
 
-from zc.buildout.easy_install import install
-from pkg_resources import working_set
 def install_projects(projects, target_dir):
     links = []
     for project in projects:

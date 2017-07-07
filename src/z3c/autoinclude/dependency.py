@@ -1,11 +1,13 @@
-import os
-import logging
-from zope.dottedname.resolve import resolve
-from pkg_resources import resource_exists
-from pkg_resources import get_provider
 from pkg_resources import get_distribution
+from pkg_resources import get_provider
+from pkg_resources import resource_exists
 from z3c.autoinclude.utils import DistributionManager
 from z3c.autoinclude.utils import ZCMLInfo
+from zope.dottedname.resolve import resolve
+
+import logging
+import os
+
 
 class DependencyFinder(DistributionManager):
 

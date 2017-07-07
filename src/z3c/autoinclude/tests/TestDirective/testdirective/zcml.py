@@ -1,6 +1,7 @@
 from zope.interface import Interface
 from zope.schema import TextLine
 
+
 test_log = []
 
 def clear_test_log():
