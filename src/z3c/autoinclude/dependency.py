@@ -1,11 +1,15 @@
-import os
-import logging
-from zope.dottedname.resolve import resolve
-from pkg_resources import resource_exists
-from pkg_resources import get_provider
 from pkg_resources import get_distribution
+from pkg_resources import get_provider
 from z3c.autoinclude.utils import DistributionManager
 from z3c.autoinclude.utils import ZCMLInfo
+from zope.dottedname.resolve import resolve
+
+import logging
+import os
+
+
+# NOQA: E501
+
 
 class DependencyFinder(DistributionManager):
 
@@ -26,7 +30,8 @@ class DependencyFinder(DistributionManager):
                     module = resolve(dotted_name)
                 except ImportError as exc:
                     logging.getLogger("z3c.autoinclude").warn(
-                        "resolve(%r) raised import error: %s" % (dotted_name, exc))
+                        "resolve(%r) raised import error: %s" % (dotted_name,
+                                                                 exc))
                     continue
                 for candidate in zcml_to_look_for:
                     candidate_path = os.path.join(
@@ -34,6 +39,7 @@ class DependencyFinder(DistributionManager):
                     if os.path.isfile(candidate_path):
                         result[candidate].append(dotted_name)
         return result
+
 
 def package_includes(project_name, zcml_filenames=None):
     """

@@ -3,14 +3,15 @@ from setuptools import setup
 
 
 setup(
-    name='TestDirective',
+    name='A',
     version='0.0',
     description="",
     long_description="""\
     """,
-    # Get strings from
-    # http://pypi.python.org/pypi?%3Aaction=list_classifiers
-    classifiers=[],
+    classifiers=[
+        # Get strings from
+        # http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    ],
     keywords='',
     author='',
     author_email='',
@@ -21,11 +22,11 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        # -*- Extra requirements: -*-
+        'b.c',
+        'z3c.autoinclude',
+        'TestDirective',
     ],
     entry_points="""
     # -*- Entry points: -*-
-    [z3c.autoinclude.plugin]
-    target = basepackage
     """,
 )

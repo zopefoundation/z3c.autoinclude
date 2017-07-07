@@ -8,8 +8,8 @@ zcml from all dependencies of a project.
 We have created a test environment to simulate setuptools
 dependencies.
 
-``APackage`` depends on ``BCPackage``
-``BCPackage`` depends on ``SiblingPackage``
+``APackage`` depends on ``b.c``
+``b.c`` depends on ``SiblingPackage``
 
 Given the distribution for the project named ``APackage``, we can ask
 for the requirements of that distribution::
@@ -20,8 +20,8 @@ for the requirements of that distribution::
 
     >>> reqs = a_dist.requires()
     >>> pprint(sorted(reqs, key=lambda r:r.project_name))
-    [Requirement.parse('BCPackage'),
-     Requirement.parse('TestDirective'),
+    [Requirement.parse('TestDirective'),
+     Requirement.parse('b.c'),
      Requirement.parse('z3c.autoinclude')]
 
 We can turn this requirement into a distribution::
@@ -109,15 +109,15 @@ both dotted names::
     ...                                         'meta.zcml']))
     {'configure.zcml': ['F.H'], 'meta.zcml': ['testdirective', 'F.G', 'F.H']}
 
-``APackage`` depends on ``BCPackage``, which depends on
-``SiblingPackage``. ``APackage`` and ``BCPackage`` both contain the
+``APackage`` depends on ``b.c``, which depends on
+``SiblingPackage``. ``APackage`` and ``b.c`` both contain the
 autoinclude directive, which will automatically include any meta.zcml
 and configure.zcml files (in that order) that their dependencies
 contain. These dependencies' zcml actually contain a test directive
 that will append a logging message to a global variable in
 testdirective.zcml. So let's trigger the loading of the configure.zcml
-in ``APackage`` and see whether its ``BCPackage`` dependency, and
-``BCPackage``'s dependencies, were indeed loaded and in the correct
+in ``APackage`` and see whether its ``b.c`` dependency, and
+``b.c``'s dependencies, were indeed loaded and in the correct
 order::
 
     >>> from pkg_resources import resource_filename
@@ -126,10 +126,8 @@ order::
     >>> dummy = xmlconfig.file(resource_filename('a', 'configure.zcml'),
     ...                        package=a)
     >>> from testdirective.zcml import test_log
-    >>> pprint(test_log, width=30)
-    [u'f.g meta has been loaded',
-     u'f.h has been loaded',
-     u'BCPackage has been loaded']
+    >>> pprint(test_log)
+    [u'f.g meta has been loaded', u'f.h has been loaded', u'b.c has been loaded']
 
 There is also a directive for including overrides, which calls
 ``autoIncludeOverridesDirective``; however, I have no idea how to test
@@ -139,14 +137,14 @@ Finally, there is a convenience API for finding the files we need to
 include from the requirements of a given package::
 
     >>> from z3c.autoinclude import package_includes
-    >>> pprint(package_includes('BCPackage'))
+    >>> pprint(package_includes('b.c'))
     {'configure.zcml': ['F.H'],
      'meta.zcml': ['testdirective', 'F.G', 'F.H'],
      'overrides.zcml': []}
 
 As with ``includableInfo``, we can also supply a list of ZCML filenames to search for::
 
-    >>> pprint(package_includes('BCPackage', ['configure.zcml', 'silly.zcml']))
+    >>> pprint(package_includes('b.c', ['configure.zcml', 'silly.zcml']))
     {'configure.zcml': ['F.H'], 'silly.zcml': []}
 
 Note that it will not catch DistributionNotFound errors::

@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 setup(
-    name='TestDirective',
+    name='foo',
     version='0.0',
     description="",
     long_description="""\
@@ -21,11 +21,11 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        # -*- Extra requirements: -*-
+        'z3c.autoinclude',
     ],
     entry_points="""
     # -*- Entry points: -*-
     [z3c.autoinclude.plugin]
-    target = basepackage
+    fleem = basepackage
     """,
 )

@@ -3,29 +3,32 @@ from setuptools import setup
 
 
 setup(
-    name='TestDirective',
-    version='0.0',
+    name='x.y.z',
+    version='0.1',
     description="",
     long_description="""\
     """,
-    # Get strings from
-    # http://pypi.python.org/pypi?%3Aaction=list_classifiers
-    classifiers=[],
+    # Get more strings from
+    # http://www.python.org/pypi?%3Aaction=list_classifiers
+    classifiers=[
+        "Framework :: Zope3",
+        "Programming Language :: Python",
+    ],
     keywords='',
     author='',
     author_email='',
     url='',
-    license='',
-    package_data={'': ['*.zcml', ]},
-    packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+    license="''",
+    packages=find_packages(exclude=['ez_setup']),
+    namespace_packages=['x', 'x.y'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
+        'setuptools',
+        'TestDirective',
         # -*- Extra requirements: -*-
     ],
     entry_points="""
     # -*- Entry points: -*-
-    [z3c.autoinclude.plugin]
-    target = basepackage
     """,
 )

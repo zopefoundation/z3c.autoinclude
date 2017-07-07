@@ -1,8 +1,9 @@
-import os
 from pkg_resources import iter_entry_points
 from pkg_resources import resource_filename
 from z3c.autoinclude.utils import DistributionManager
 from z3c.autoinclude.utils import ZCMLInfo
+
+import os
 
 
 class PluginFinder(object):
@@ -26,10 +27,11 @@ def find_plugins(dotted_name):
         if ep.module_name == dotted_name:
             yield ep.dist
 
+
 def zcml_to_include(dotted_name, zcmlgroups=None):
     if zcmlgroups is None:
         zcmlgroups = ('meta.zcml', 'configure.zcml', 'overrides.zcml')
-    
+
     includable_info = []
 
     for zcmlgroup in zcmlgroups:

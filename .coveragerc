@@ -1,0 +1,11 @@
+[run]
+branch = True
+source = src
+omit =
+
+
+[report]
+precision = 2
+
+[html]
+directory = reports/coverage

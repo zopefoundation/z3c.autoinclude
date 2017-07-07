@@ -1,3 +1,3 @@
 #
 from __future__ import absolute_import
-from .dependency import package_includes
+from z3c.autoinclude.dependency import package_includes  # NOQA: F401
