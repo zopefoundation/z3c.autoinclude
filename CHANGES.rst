@@ -7,6 +7,8 @@ Changes
 - Add support for pip installed packages. This removes support
   for packages those names are different to the package paths
   they provide.
+- Package Cleanup and Code Convetions
+- Ensure support for Python 2.7/3.4-3.6 and PyPY
 
 
 0.3.7 (2016-08-24)
