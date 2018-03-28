@@ -10,7 +10,10 @@ from z3c.autoinclude.utils import distributionForPackage
 from z3c.autoinclude.plugin import PluginFinder
 
 import logging
+import six
+
 log = logging.getLogger("z3c.autoinclude")
+
 
 def includeZCMLGroup(_context, info, filename, override=False):
     includable_zcml = info[filename]
@@ -32,7 +35,7 @@ def includeZCMLGroup(_context, info, filename, override=False):
 
 class IIncludeDependenciesDirective(Interface):
     """Auto-include any ZCML in the dependencies of this package."""
-    
+
     package = GlobalObject(
         title=u"Package to auto-include for",
         description=u"""
@@ -66,7 +69,7 @@ def includeDependenciesOverridesDirective(_context, package):
 
 class IIncludePluginsDirective(Interface):
     """Auto-include any ZCML in the dependencies of this package."""
-    
+
     package = GlobalObject(
         title=u"Package to auto-include for",
         description=u"""
@@ -97,6 +100,8 @@ def includePluginsDirective(_context, package, file=None):
     if file is None:
         zcml_to_look_for = ['meta.zcml', 'configure.zcml']
     else:
+        if six.PY3 and isinstance(file, bytes):
+            file = file.decode('utf-8')
         zcml_to_look_for = [file]
     info = PluginFinder(dotted_name).includableInfo(zcml_to_look_for)
 
@@ -113,6 +118,8 @@ def includePluginsOverridesDirective(_context, package, file=None):
     if file is None:
         zcml_to_look_for = ['overrides.zcml']
     else:
+        if six.PY3 and isinstance(file, bytes):
+            file = file.decode('utf-8')
         zcml_to_look_for = [file]
     info = PluginFinder(dotted_name).includableInfo(zcml_to_look_for)
 
