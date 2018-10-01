@@ -26,7 +26,7 @@ setup(
     keywords='',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
-    url='https://pypi.python.org/pypi/z3c.autoinclude',
+    url='https://pypi.org/project/z3c.autoinclude',
     license='ZPL',
     packages=find_packages('src'),
     package_dir={'': 'src'},
