@@ -12,8 +12,9 @@ matrix:
           dist: xenial
           sudo: true
 install:
-    - pip install zc.buildout
-    - buildout
+    - virtualenv .
+    - bin/pip install zc.buildout
+    - bin/buildout
 script:
     - bin/test -v1
 notifications:
