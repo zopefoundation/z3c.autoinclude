@@ -2,7 +2,7 @@ from zope.interface import Interface
 from zope.configuration.xmlconfig import include, includeOverrides
 from zope.configuration.fields import GlobalObject
 from zope.dottedname.resolve import resolve
-from zope.schema import BytesLine
+from zope.schema import NativeStringLine
 
 from z3c.autoinclude import api
 from z3c.autoinclude.dependency import DependencyFinder
@@ -66,7 +66,7 @@ def includeDependenciesOverridesDirective(_context, package):
 
 class IIncludePluginsDirective(Interface):
     """Auto-include any ZCML in the dependencies of this package."""
-    
+
     package = GlobalObject(
         title=u"Package to auto-include for",
         description=u"""
@@ -75,7 +75,7 @@ class IIncludePluginsDirective(Interface):
         required=True,
         )
 
-    file = BytesLine(
+    file = NativeStringLine(
         title=u"ZCML filename to look for",
         description=u"""
         Name of a particular ZCML file to look for.

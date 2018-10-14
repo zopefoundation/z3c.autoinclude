@@ -1,6 +1,7 @@
 import re
 import os
 import doctest
+import sys
 import unittest
 
 from zc.buildout import testing
@@ -59,6 +60,7 @@ def testSetUp(test):
     testing.buildoutSetUp(test)
     import tempfile
     target_dir = tempfile.mkdtemp('.z3c.autoinclude.test-installs')
+    test._old_path = list(sys.path)
     install_projects(test_packages, target_dir)
 
 
@@ -67,6 +69,8 @@ def testTearDown(test):
     clear_test_log()
 
     testing.buildoutTearDown(test)
+
+    sys.path = test._old_path
 
 
 IGNORECASE = doctest.register_optionflag('IGNORECASE')
