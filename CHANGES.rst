@@ -4,7 +4,10 @@ Changes
 0.3.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add support for Python 3.6 and 3.7.
+
+- Fix the ``includePlugins`` directive to read filenames
+  as native strings in Python 3.
 
 
 0.3.7 (2016-08-24)

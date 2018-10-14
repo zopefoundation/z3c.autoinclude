@@ -2,7 +2,7 @@ from zope.interface import Interface
 from zope.configuration.xmlconfig import include, includeOverrides
 from zope.configuration.fields import GlobalObject
 from zope.dottedname.resolve import resolve
-from zope.schema import BytesLine
+from zope.schema import NativeStringLine
 
 from z3c.autoinclude import api
 from z3c.autoinclude.dependency import DependencyFinder
@@ -78,7 +78,7 @@ class IIncludePluginsDirective(Interface):
         required=True,
         )
 
-    file = BytesLine(
+    file = NativeStringLine(
         title=u"ZCML filename to look for",
         description=u"""
         Name of a particular ZCML file to look for.
@@ -100,8 +100,6 @@ def includePluginsDirective(_context, package, file=None):
     if file is None:
         zcml_to_look_for = ['meta.zcml', 'configure.zcml']
     else:
-        if six.PY3 and isinstance(file, bytes):
-            file = file.decode('utf-8')
         zcml_to_look_for = [file]
     info = PluginFinder(dotted_name).includableInfo(zcml_to_look_for)
 
@@ -118,8 +116,6 @@ def includePluginsOverridesDirective(_context, package, file=None):
     if file is None:
         zcml_to_look_for = ['overrides.zcml']
     else:
-        if six.PY3 and isinstance(file, bytes):
-            file = file.decode('utf-8')
         zcml_to_look_for = [file]
     info = PluginFinder(dotted_name).includableInfo(zcml_to_look_for)
 

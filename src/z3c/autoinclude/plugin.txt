@@ -79,6 +79,7 @@ should accurately reflect that the ``FooPackage`` ZCML has been loaded::
 
 ``base2`` is a namespace package. ``base2.plug`` is a package that
 defines a plugin for base2; it extends ``base2``s namespace.
+This also tests that specifying a file with ``includePlugins`` works.
 
     >>> from testdirective.zcml import clear_test_log
     >>> clear_test_log()
