@@ -10,10 +10,7 @@ from z3c.autoinclude.utils import distributionForPackage
 from z3c.autoinclude.plugin import PluginFinder
 
 import logging
-import six
-
 log = logging.getLogger("z3c.autoinclude")
-
 
 def includeZCMLGroup(_context, info, filename, override=False):
     includable_zcml = info[filename]
@@ -35,7 +32,7 @@ def includeZCMLGroup(_context, info, filename, override=False):
 
 class IIncludeDependenciesDirective(Interface):
     """Auto-include any ZCML in the dependencies of this package."""
-
+    
     package = GlobalObject(
         title=u"Package to auto-include for",
         description=u"""
