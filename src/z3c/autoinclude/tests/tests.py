@@ -60,7 +60,7 @@ def testSetUp(test):
     testing.buildoutSetUp(test)
     import tempfile
     target_dir = tempfile.mkdtemp('.z3c.autoinclude.test-installs')
-    test._old_path = sys.path.copy()
+    test._old_path = list(sys.path)
     install_projects(test_packages, target_dir)
 
 
