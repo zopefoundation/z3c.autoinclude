@@ -1,6 +1,22 @@
 Changes
 =======
 
+0.3.9 (unreleased)
+------------------
+
+Breaking changes:
+
+- *add item here*
+
+New features:
+
+- *add item here*
+
+Bug fixes:
+
+- *add item here*
+
+
 0.3.8 (2018-11-04)
 ------------------
 
