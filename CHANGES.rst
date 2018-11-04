@@ -1,10 +1,14 @@
 Changes
 =======
 
-0.3.8 (unreleased)
+0.3.8 (2018-11-04)
 ------------------
 
+New features:
+
 - Add support for Python 3.6 and 3.7.
+
+Bug fixes:
 
 - Fix the ``includePlugins`` directive to read filenames
   as native strings in Python 3.
