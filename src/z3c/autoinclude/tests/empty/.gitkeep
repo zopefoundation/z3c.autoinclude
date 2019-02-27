@@ -1,0 +1,3 @@
+This directory is used in a test in dependency.txt.
+We needed a package there that is not a module,
+so without an __init__.py.
