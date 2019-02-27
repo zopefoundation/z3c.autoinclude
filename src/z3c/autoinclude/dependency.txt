@@ -165,7 +165,7 @@ This is easiest to test by some hacking.
     >>> DistributionManager.orig_dottedNames = DistributionManager.dottedNames
     >>> def dottedNames(self):
     ...     result = self.orig_dottedNames()
-    ...     result.extend(['z3c.autoinclude.tests.empty', 'nosuchpackage'])
+    ...     result.extend(['z3c.autoinclude.tests.nomodulefile', 'nosuchpackage'])
     ...     return result
     >>> DistributionManager.dottedNames = dottedNames
     >>> pprint(b_include_finder.includableInfo(['configure.zcml',
