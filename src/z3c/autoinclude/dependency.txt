@@ -155,3 +155,24 @@ Note that it will not catch DistributionNotFound errors::
      Traceback (most recent call last):
      ...
      DistributionNotFound: ...
+
+We do not want to break when there are problems with some dependencies.
+If a dependency is not found or is not a module, we should not try to load its zcml.
+See https://github.com/zopefoundation/z3c.autoinclude/issues/6.
+This is easiest to test by some hacking.
+
+    >>> from z3c.autoinclude.utils import DistributionManager
+    >>> DistributionManager.orig_dottedNames = DistributionManager.dottedNames
+    >>> def dottedNames(self):
+    ...     result = self.orig_dottedNames()
+    ...     result.extend(['z3c.autoinclude.tests.nomodulefile', 'nosuchpackage'])
+    ...     return result
+    >>> DistributionManager.dottedNames = dottedNames
+    >>> pprint(b_include_finder.includableInfo(['configure.zcml',
+    ...                                         'meta.zcml']))
+    {'configure.zcml': ['F.H'], 'meta.zcml': ['testdirective', 'F.G', 'F.H']}
+
+Restore the original dottedNames method:
+
+    >>> DistributionManager.dottedNames = DistributionManager.orig_dottedNames
+    >>> del DistributionManager.orig_dottedNames

@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Catch and ignore AttributeError for ``module.__file__``.
+  Fixes `issue 6 <https://github.com/zopefoundation/z3c.autoinclude/issues/6>`_.
+  [maurits]
 
 
 0.3.8 (2018-11-04)
