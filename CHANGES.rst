@@ -4,14 +4,6 @@ Changes
 0.3.9 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Catch and ignore AttributeError for ``module.__file__``.
