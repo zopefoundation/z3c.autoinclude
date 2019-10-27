@@ -3,17 +3,13 @@ from setuptools import setup, find_packages
 version = '0.3.10.dev0'
 __version__ = version
 
-TESTS_REQUIRE = [
-    "zc.buildout",
-    "zope.testing",
-]
+TESTS_REQUIRE = ["zc.buildout", "zope.testing"]
 
 setup(
     name='z3c.autoinclude',
     version=__version__,
     description="Automatically include ZCML",
-    long_description=(open('README.rst').read() + "\n" +
-                      open('CHANGES.rst').read()),
+    long_description=(open('README.rst').read() + "\n" + open('CHANGES.rst').read()),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Framework :: Zope :: 3",
@@ -45,9 +41,7 @@ setup(
         'zc.buildout',
     ],
     tests_require=TESTS_REQUIRE,
-    extras_require={
-        'test': TESTS_REQUIRE,
-    },
+    extras_require={'test': TESTS_REQUIRE},
     entry_points="""
     [console_scripts]
     autoinclude-test = z3c.autoinclude.tests.tests:interactive_testing_env
