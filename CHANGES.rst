@@ -10,7 +10,10 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- First try ``pkg_resources.get_distribution` to find a package.
+  This helps for packages installed with ``pip``.
+  See `issue 9 <https://github.com/zopefoundation/z3c.autoinclude/issues/9>`_.
+  [maurits]
 
 Bug fixes:
 

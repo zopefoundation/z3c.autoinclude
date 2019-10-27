@@ -1,7 +1,10 @@
 from __future__ import absolute_import, print_function
 
 import os
+from operator import attrgetter
+from pkg_resources import DistributionNotFound
 from pkg_resources import find_distributions
+from pkg_resources import get_distribution
 from pprint import pformat
 import sys
 
@@ -65,6 +68,31 @@ def isPythonPackage(path):
             return True
     return False
 
+
+def all_packages():
+    """Get a mapping from package name to distribution.
+
+    Maybe cache this, or optimize for the case of searching for one name,
+    but seems fast enough.
+    """
+    mapping = {}
+    all_dists = []
+    for path in sys.path:
+        dists = find_distributions(path, True)
+        for dist in dists:
+            if not isUnzippedEgg(dist.location):
+                continue
+            all_dists.append(dist)
+    all_dists = sorted(all_dists, key=attrgetter("project_name"))
+    for dist in all_dists:
+        packages = find_packages(dist.location)
+        for package in packages:
+            if package in mapping:
+                continue
+            mapping[package] = dist
+    return mapping
+
+
 def distributionForPackage(package):
     package_dottedname = package.__name__
     return distributionForDottedName(package_dottedname)
@@ -76,62 +104,18 @@ def distributionForDottedName(package_dottedname):
     explanation, and it is arbitrary in some namespace cases.
     Then it needs to be profiled.
     """
-    valid_dists_for_package = []
-    for path in sys.path:
-        dists = find_distributions(path, True)
-        for dist in dists:
-            if not isUnzippedEgg(dist.location):
-                continue
-            packages = find_packages(dist.location)
-            ns_packages = namespaceDottedNames(dist)
-            #if package_dottedname in ns_packages:
-                #continue
-            if package_dottedname not in packages:
-                continue
-            valid_dists_for_package.append((dist, ns_packages))
+    try:
+        # The simple case.
+        return get_distribution(package_dottedname)
+    except DistributionNotFound:
+        pass
+    # The hard case.
+    packages = all_packages()
+    dist = packages.get(package_dottedname)
+    if dist:
+        return dist
+    raise LookupError("No distributions found for package `%s`; are you sure it is importable?" % package_dottedname)
 
-    if len(valid_dists_for_package) == 0:
-        raise LookupError("No distributions found for package `%s`; are you sure it is importable?" % package_dottedname)
-
-    if len(valid_dists_for_package) > 1:
-        non_namespaced_dists = [(dist, ns_packages)
-                                for dist, ns_packages
-                                in valid_dists_for_package if len(ns_packages) == 0]
-        if len(non_namespaced_dists) == 0:
-            # if we only have namespace packages at this point,
-            # 'foo.bar' and 'foo.baz', while looking for 'foo', we can
-            # just select the first because the choice has no effect.
-            # However, if possible, we prefer to select the one that matches the package name
-            # if it's the "root" namespace
-            if '.' not in package_dottedname:
-                for dist, _ in valid_dists_for_package:
-                    if dist.project_name == package_dottedname:
-                        return dist
-
-            # Otherwise, to be deterministic (because the order depends on both sys.path
-            # and `find_distributions`) we will sort them by project_name and return
-            # the first value.
-            valid_dists_for_package.sort(key=lambda dist_ns: dist_ns[0].project_name)
-
-            return valid_dists_for_package[0][0]
-
-        valid_dists_for_package = non_namespaced_dists ### if we have packages 'foo', 'foo.bar', and 'foo.baz', the correct one is 'foo'.
-
-        ### we really are in trouble if we get into a situation with more than one non-namespaced package at this point.
-        error_msg = '''
-Multiple distributions were found that claim to provide the `%s` package.
-This is most likely because one or more of them uses `%s` as a namespace package,
-but forgot to declare it in the `namespace_packages` section of its `setup.py`.
-Please make any necessary adjustments and reinstall the modified distribution(s).
-
-Distributions found: %s
-'''
-
-        assert len(non_namespaced_dists) == 1, error_msg % (
-            package_dottedname, package_dottedname,
-            pformat(non_namespaced_dists))
-
-    return valid_dists_for_package[0][0]
 
 def namespaceDottedNames(dist):
     """
