@@ -1,16 +1,16 @@
 Changes
 =======
 
-0.3.10 (unreleased)
--------------------
+0.4.0 (unreleased)
+------------------
 
 Breaking changes:
 
-- *add item here*
+- Drop support for Python 3.4.
 
 New features:
 
-- *add item here*
+- Add support for Python 3.8.
 
 Bug fixes:
 
