@@ -26,10 +26,11 @@ def find_plugins(dotted_name):
         if ep.module_name == dotted_name:
             yield ep.dist
 
+
 def zcml_to_include(dotted_name, zcmlgroups=None):
     if zcmlgroups is None:
         zcmlgroups = ('meta.zcml', 'configure.zcml', 'overrides.zcml')
-    
+
     includable_info = []
 
     for zcmlgroup in zcmlgroups:

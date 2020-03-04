@@ -10,7 +10,9 @@ from z3c.autoinclude.utils import distributionForPackage
 from z3c.autoinclude.plugin import PluginFinder
 
 import logging
+
 log = logging.getLogger("z3c.autoinclude")
+
 
 def includeZCMLGroup(_context, info, filename, override=False):
     includable_zcml = info[filename]
@@ -20,7 +22,12 @@ def includeZCMLGroup(_context, info, filename, override=False):
     zcml_context = repr(_context.info)
 
     for dotted_name in includable_zcml:
-        log.debug('including file %s from package %s at %s', filename, dotted_name, zcml_context)
+        log.debug(
+            'including file %s from package %s at %s',
+            filename,
+            dotted_name,
+            zcml_context,
+        )
 
     for dotted_name in includable_zcml:
         includable_package = resolve(dotted_name)
@@ -32,19 +39,23 @@ def includeZCMLGroup(_context, info, filename, override=False):
 
 class IIncludeDependenciesDirective(Interface):
     """Auto-include any ZCML in the dependencies of this package."""
-    
+
     package = GlobalObject(
         title=u"Package to auto-include for",
         description=u"""
         Auto-include all dependencies of this package.
         """,
         required=True,
-        )
+    )
+
 
 def includeDependenciesDirective(_context, package):
 
     if api.dependencies_disabled():
-        log.warn('z3c.autoinclude.dependency is disabled but is being invoked by %s' % _context.info)
+        log.warn(
+            'z3c.autoinclude.dependency is disabled but is being invoked by %s'
+            % _context.info
+        )
         return
 
     dist = distributionForPackage(package)
@@ -53,10 +64,14 @@ def includeDependenciesDirective(_context, package):
     includeZCMLGroup(_context, info, 'meta.zcml')
     includeZCMLGroup(_context, info, 'configure.zcml')
 
+
 def includeDependenciesOverridesDirective(_context, package):
 
     if api.dependencies_disabled():
-        log.warn('z3c.autoinclude.dependency is disabled but is being invoked by %s' % _context.info)
+        log.warn(
+            'z3c.autoinclude.dependency is disabled but is being invoked by %s'
+            % _context.info
+        )
         return
 
     dist = distributionForPackage(package)
@@ -73,7 +88,7 @@ class IIncludePluginsDirective(Interface):
         Auto-include all plugins to this package.
         """,
         required=True,
-        )
+    )
 
     file = NativeStringLine(
         title=u"ZCML filename to look for",
@@ -83,13 +98,16 @@ class IIncludePluginsDirective(Interface):
         (e.g. meta.zcml, configure.zcml, overrides.zcml)
         """,
         required=False,
-        )
+    )
 
 
 def includePluginsDirective(_context, package, file=None):
 
     if api.plugins_disabled():
-        log.warn('z3c.autoinclude.plugin is disabled but is being invoked by %s' % _context.info)
+        log.warn(
+            'z3c.autoinclude.plugin is disabled but is being invoked by %s'
+            % _context.info
+        )
         return
 
     dotted_name = package.__name__
@@ -103,10 +121,14 @@ def includePluginsDirective(_context, package, file=None):
     for filename in zcml_to_look_for:
         includeZCMLGroup(_context, info, filename)
 
+
 def includePluginsOverridesDirective(_context, package, file=None):
 
     if api.plugins_disabled():
-        log.warn('z3c.autoinclude.plugin is disabled but is being invoked by %s' % _context.info)
+        log.warn(
+            'z3c.autoinclude.plugin is disabled but is being invoked by %s'
+            % _context.info
+        )
         return
 
     dotted_name = package.__name__

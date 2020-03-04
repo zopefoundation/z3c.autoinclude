@@ -5,6 +5,7 @@ from pkg_resources import find_distributions
 from pprint import pformat
 import sys
 
+
 class DistributionManager(object):
     def __init__(self, dist):
         self.context = dist
@@ -35,6 +36,7 @@ class DistributionManager(object):
                     result.append(subpackage)
         return result
 
+
 class ZCMLInfo(dict):
     def __init__(self, zcml_to_look_for):
         dict.__init__(self)
@@ -57,6 +59,7 @@ def subpackageDottedNames(package_path, ns_dottedname=None):
                 result.append(subpackage_name)
     return sorted(result)
 
+
 def isPythonPackage(path):
     if not os.path.isdir(path):
         return False
@@ -65,9 +68,11 @@ def isPythonPackage(path):
             return True
     return False
 
+
 def distributionForPackage(package):
     package_dottedname = package.__name__
     return distributionForDottedName(package_dottedname)
+
 
 def distributionForDottedName(package_dottedname):
     """
@@ -84,19 +89,24 @@ def distributionForDottedName(package_dottedname):
                 continue
             packages = find_packages(dist.location)
             ns_packages = namespaceDottedNames(dist)
-            #if package_dottedname in ns_packages:
-                #continue
+            # if package_dottedname in ns_packages:
+            # continue
             if package_dottedname not in packages:
                 continue
             valid_dists_for_package.append((dist, ns_packages))
 
     if len(valid_dists_for_package) == 0:
-        raise LookupError("No distributions found for package `%s`; are you sure it is importable?" % package_dottedname)
+        raise LookupError(
+            "No distributions found for package `%s`; are you sure it is importable?"
+            % package_dottedname
+        )
 
     if len(valid_dists_for_package) > 1:
-        non_namespaced_dists = [(dist, ns_packages)
-                                for dist, ns_packages
-                                in valid_dists_for_package if len(ns_packages) == 0]
+        non_namespaced_dists = [
+            (dist, ns_packages)
+            for dist, ns_packages in valid_dists_for_package
+            if len(ns_packages) == 0
+        ]
         if len(non_namespaced_dists) == 0:
             # if we only have namespace packages at this point,
             # 'foo.bar' and 'foo.baz', while looking for 'foo', we can
@@ -115,7 +125,9 @@ def distributionForDottedName(package_dottedname):
 
             return valid_dists_for_package[0][0]
 
-        valid_dists_for_package = non_namespaced_dists ### if we have packages 'foo', 'foo.bar', and 'foo.baz', the correct one is 'foo'.
+        valid_dists_for_package = (
+            non_namespaced_dists
+        )  ### if we have packages 'foo', 'foo.bar', and 'foo.baz', the correct one is 'foo'.
 
         ### we really are in trouble if we get into a situation with more than one non-namespaced package at this point.
         error_msg = '''
@@ -128,10 +140,13 @@ Distributions found: %s
 '''
 
         assert len(non_namespaced_dists) == 1, error_msg % (
-            package_dottedname, package_dottedname,
-            pformat(non_namespaced_dists))
+            package_dottedname,
+            package_dottedname,
+            pformat(non_namespaced_dists),
+        )
 
     return valid_dists_for_package[0][0]
+
 
 def namespaceDottedNames(dist):
     """
@@ -145,6 +160,7 @@ def namespaceDottedNames(dist):
         ns_dottednames = []
     return ns_dottednames
 
+
 def isUnzippedEgg(path):
     """
     Check whether a filesystem path points to an unzipped egg; z3c.autoinclude
@@ -154,12 +170,15 @@ def isUnzippedEgg(path):
     """
     return os.path.isdir(path)
 
+
 ### cargo-culted from setuptools 0.6c9's __init__.py;
 #   importing setuptools is unsafe, but i can't find any
 #   way to get the information that find_packages provides
 #   using pkg_resources and i can't figure out a way to
 #   avoid needing it.
 from distutils.util import convert_path
+
+
 def find_packages(where='.', exclude=()):
     """Return a list all Python packages found within directory 'where'
 
@@ -170,16 +189,20 @@ def find_packages(where='.', exclude=()):
     'foo' itself).
     """
     out = []
-    stack=[(convert_path(where), '')]
+    stack = [(convert_path(where), '')]
     while stack:
-        where,prefix = stack.pop(0)
+        where, prefix = stack.pop(0)
         for name in os.listdir(where):
-            fn = os.path.join(where,name)
-            if ('.' not in name and os.path.isdir(fn) and
-                os.path.isfile(os.path.join(fn,'__init__.py'))
+            fn = os.path.join(where, name)
+            if (
+                '.' not in name
+                and os.path.isdir(fn)
+                and os.path.isfile(os.path.join(fn, '__init__.py'))
             ):
-                out.append(prefix+name); stack.append((fn,prefix+name+'.'))
-    for pat in list(exclude)+['ez_setup']:
+                out.append(prefix + name)
+                stack.append((fn, prefix + name + '.'))
+    for pat in list(exclude) + ['ez_setup']:
         from fnmatch import fnmatchcase
-        out = [item for item in out if not fnmatchcase(item,pat)]
+
+        out = [item for item in out if not fnmatchcase(item, pat)]
     return out
