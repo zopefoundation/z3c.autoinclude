@@ -44,10 +44,7 @@ class ZCMLInfo(dict):
             self[zcml_group] = []
 
     def __bool__(self):
-        for value in self.values():
-            if value:
-                return True
-        return False
+        return any(self.values())
 
     # For Python 2:
     __nonzero__ = __bool__
@@ -225,7 +222,7 @@ def create_report(info):
         return ["<!-- No zcml files found to include. -->"]
     report = []
     # Try to report meta.zcml first.
-    filenames = info.keys()
+    filenames = list(info)
     meta = "meta.zcml"
     if meta in filenames:
         filenames.pop(filenames.index(meta))
