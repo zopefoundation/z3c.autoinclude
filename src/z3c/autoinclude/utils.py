@@ -225,7 +225,7 @@ def create_report(info):
     filenames = list(info)
     meta = "meta.zcml"
     if meta in filenames:
-        filenames.pop(filenames.index(meta))
+        filenames.remove(meta)
         filenames.insert(0, meta)
     for filename in filenames:
         dotted_names = info[filename]
