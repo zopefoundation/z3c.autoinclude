@@ -34,8 +34,8 @@ def debug_enabled():
 
 
 def disable_debug():
-    os.environ[DEBUG_KEY] = 'True'
+    del os.environ[DEBUG_KEY]
 
 
 def enable_debug():
-    del os.environ[DEBUG_KEY]
+    os.environ[DEBUG_KEY] = 'True'
