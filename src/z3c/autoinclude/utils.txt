@@ -45,3 +45,21 @@ package contained within it::
     >>> import F.G
     >>> distributionForPackage(F.G) # doctest: +IGNORECASE
     SiblingPackage 0.0 (...SiblingPackage-0.0...egg)
+
+We have a helper class ZCMLInfo which is a dictionary which automatically gets keys.
+Perhaps a defaultdict would work too now, but let's not change the class at this time.
+
+    >>> from z3c.autoinclude.utils import ZCMLInfo
+    >>> info = ZCMLInfo(['meta.zcml', 'configure.zcml'])
+    >>> sorted(info.keys())
+    ['configure.zcml', 'meta.zcml']
+    >>> list(info.values())
+    [[], []]
+
+When no values are filled in, the boolean should be False.
+
+    >>> bool(info)
+    False
+    >>> info['configure.zcml'].append('sample_package')
+    >>> bool(info)
+    True

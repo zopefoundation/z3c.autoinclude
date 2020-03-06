@@ -43,6 +43,15 @@ class ZCMLInfo(dict):
         for zcml_group in zcml_to_look_for:
             self[zcml_group] = []
 
+    def __bool__(self):
+        for value in self.values():
+            if value:
+                return True
+        return False
+
+    # For Python 2:
+    __nonzero__ = __bool__
+
 
 def subpackageDottedNames(package_path, ns_dottedname=None):
     # we do not look for subpackages in zipped eggs
