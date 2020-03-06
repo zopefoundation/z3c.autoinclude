@@ -118,7 +118,14 @@ def test_suite():
 
     from pprint import pprint
 
-    suite = doctest.DocFileSuite(
+    simple_suite = doctest.DocFileSuite(
+        '../api.txt',
+        globs={'pprint': pprint},
+        checker=IgnoreCaseChecker(),
+        optionflags=doctest.ELLIPSIS,
+    )
+
+    advanced_suite = doctest.DocFileSuite(
         '../utils.txt',
         '../dependency.txt',
         '../plugin.txt',
@@ -129,7 +136,7 @@ def test_suite():
         optionflags=doctest.ELLIPSIS,
     )
 
-    return unittest.TestSuite((suite,))
+    return unittest.TestSuite((simple_suite, advanced_suite))
 
 
 if __name__ == '__main__':

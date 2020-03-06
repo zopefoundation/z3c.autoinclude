@@ -14,7 +14,7 @@ def disable_dependencies():
 
 
 def enable_dependencies():
-    del os.environ[DEP_KEY]
+    os.environ.pop(DEP_KEY, None)
 
 
 def plugins_disabled():
@@ -26,7 +26,7 @@ def disable_plugins():
 
 
 def enable_plugins():
-    del os.environ[PLUGIN_KEY]
+    os.environ.pop(PLUGIN_KEY, None)
 
 
 def debug_enabled():
@@ -34,7 +34,7 @@ def debug_enabled():
 
 
 def disable_debug():
-    del os.environ[DEBUG_KEY]
+    os.environ.pop(DEBUG_KEY, None)
 
 
 def enable_debug():
