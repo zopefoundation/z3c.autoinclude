@@ -2,6 +2,7 @@ import os
 
 DEP_KEY = 'Z3C_AUTOINCLUDE_DEPENDENCIES_DISABLED'
 PLUGIN_KEY = 'Z3C_AUTOINCLUDE_PLUGINS_DISABLED'
+DEBUG_KEY = 'Z3C_AUTOINCLUDE_DEBUG'
 
 
 def dependencies_disabled():
@@ -26,3 +27,15 @@ def disable_plugins():
 
 def enable_plugins():
     del os.environ[PLUGIN_KEY]
+
+
+def debug_enabled():
+    return DEBUG_KEY in os.environ
+
+
+def disable_debug():
+    os.environ[DEBUG_KEY] = 'True'
+
+
+def enable_debug():
+    del os.environ[DEBUG_KEY]
