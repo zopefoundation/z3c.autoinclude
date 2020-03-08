@@ -4,8 +4,10 @@ from zope.dottedname.resolve import resolve
 from pkg_resources import resource_exists
 from pkg_resources import get_provider
 from pkg_resources import get_distribution
+from z3c.autoinclude.api import debug_enabled
 from z3c.autoinclude.utils import DistributionManager
 from z3c.autoinclude.utils import ZCMLInfo
+from z3c.autoinclude.utils import create_report
 
 
 logger = logging.getLogger("z3c.autoinclude")
@@ -42,6 +44,15 @@ class DependencyFinder(DistributionManager):
                     )
                     if os.path.isfile(candidate_path):
                         result[candidate].append(dotted_name)
+
+        if debug_enabled():
+            report = create_report(result)
+            if "overrides.zcml" in zcml_to_look_for:
+                report.insert(0, "includeDependenciesOverrides found in zcml of %s." % self.context.project_name)
+            else:
+                report.insert(0, "includeDependencies found in zcml of %s." % self.context.project_name)
+            logger.info("\n".join(report))
+
         return result
 
 

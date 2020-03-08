@@ -43,6 +43,12 @@ class ZCMLInfo(dict):
         for zcml_group in zcml_to_look_for:
             self[zcml_group] = []
 
+    def __bool__(self):
+        return any(self.values())
+
+    # For Python 2:
+    __nonzero__ = __bool__
+
 
 def subpackageDottedNames(package_path, ns_dottedname=None):
     # we do not look for subpackages in zipped eggs
@@ -206,3 +212,29 @@ def find_packages(where='.', exclude=()):
 
         out = [item for item in out if not fnmatchcase(item, pat)]
     return out
+
+
+def create_report(info):
+    """Create a report with a list of auto included zcml."""
+    if not info:
+        # Return a comment.  Maybe someone wants to automatically include this
+        # in a zcml file, so make it a proper xml comment.
+        return ["<!-- No zcml files found to include. -->"]
+    report = []
+    # Try to report meta.zcml first.
+    filenames = list(info)
+    meta = "meta.zcml"
+    if meta in filenames:
+        filenames.remove(meta)
+        filenames.insert(0, meta)
+    for filename in filenames:
+        dotted_names = info[filename]
+        for dotted_name in dotted_names:
+            if filename == "overrides.zcml":
+                line = '  <includeOverrides package="%s" file="%s" />' % (dotted_name, filename)
+            elif filename == "configure.zcml":
+                line = '  <include package="%s" />'% dotted_name
+            else:
+                line = '  <include package="%s" file="%s" />'% (dotted_name, filename)
+            report.append(line)
+    return report

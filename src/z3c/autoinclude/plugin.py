@@ -1,8 +1,14 @@
+import logging
 import os
 from pkg_resources import iter_entry_points
 from pkg_resources import resource_filename
+from z3c.autoinclude.api import debug_enabled
+from z3c.autoinclude.utils import create_report
 from z3c.autoinclude.utils import DistributionManager
 from z3c.autoinclude.utils import ZCMLInfo
+
+
+logger = logging.getLogger("z3c.autoinclude")
 
 
 class PluginFinder(object):
@@ -18,6 +24,15 @@ class PluginFinder(object):
                 groups = zcml_to_include(plugin_dottedname, zcml_to_look_for)
                 for zcml_group in groups:
                     includable_info[zcml_group].append(plugin_dottedname)
+
+        if debug_enabled():
+            report = create_report(includable_info)
+            if "overrides.zcml" in zcml_to_look_for:
+                report.insert(0, "includePluginsOverrides found in zcml of %s." % self.dottedname)
+            else:
+                report.insert(0, "includePlugins found in zcml of %s." % self.dottedname)
+            logger.info("\n".join(report))
+
         return includable_info
 
 

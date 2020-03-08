@@ -10,6 +10,10 @@ Breaking changes:
 
 New features:
 
+- When environment variable ``Z3C_AUTOINCLUDE_DEBUG`` is set,
+  log which packages are being automatically included.
+  Do this in a form that you can copy to a ``configure.zcml`` file.
+
 - Add support for Python 3.8.
 
 Bug fixes:

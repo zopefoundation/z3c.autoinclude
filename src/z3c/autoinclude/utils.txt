@@ -45,3 +45,54 @@ package contained within it::
     >>> import F.G
     >>> distributionForPackage(F.G) # doctest: +IGNORECASE
     SiblingPackage 0.0 (...SiblingPackage-0.0...egg)
+
+We have a helper class ZCMLInfo which is a dictionary which automatically gets keys.
+Perhaps a defaultdict would work too now, but let's not change the class at this time.
+
+    >>> from z3c.autoinclude.utils import ZCMLInfo
+    >>> info = ZCMLInfo(['meta.zcml', 'configure.zcml'])
+    >>> sorted(info.keys())
+    ['configure.zcml', 'meta.zcml']
+    >>> list(info.values())
+    [[], []]
+
+When no values are filled in, the boolean should be False.
+
+    >>> bool(info)
+    False
+
+We can create a report of the auto included zcml.
+
+    >>> from z3c.autoinclude.utils import create_report
+    >>> create_report(info)
+    ['<!-- No zcml files found to include. -->']
+
+We add information:
+
+    >>> info['configure.zcml'].append('sample_package')
+    >>> bool(info)
+    True
+    >>> create_report(info)
+    ['  <include package="sample_package" />']
+    >>> info['configure.zcml'].append('package2')
+    >>> info['meta.zcml'].append('meta_package')
+    >>> report = create_report(info)
+    >>> len(report)
+    3
+    >>> report[0]
+    '  <include package="meta_package" file="meta.zcml" />'
+    >>> report[1]
+    '  <include package="sample_package" />'
+    >>> report[2]
+    '  <include package="package2" />'
+
+We can only add known filenames:
+
+    >>> info['overrides.zcml'].append('overrides_package')
+    Traceback (most recent call last):
+    ...
+    KeyError: 'overrides.zcml'
+    >>> overrides = ZCMLInfo(['overrides.zcml'])
+    >>> overrides['overrides.zcml'].append('overrides_package')
+    >>> create_report(overrides)
+    ['  <includeOverrides package="overrides_package" file="overrides.zcml" />']
