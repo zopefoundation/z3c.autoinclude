@@ -23,7 +23,7 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
-    keywords='',
+    keywords='zcml automatic',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
     url='https://pypi.org/project/z3c.autoinclude',
