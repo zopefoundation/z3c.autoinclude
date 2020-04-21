@@ -78,6 +78,11 @@ the environment variables "Z3C_AUTOINCLUDE_DEPENDENCIES_DISABLED" and
 When autoinclusion is disabled, the autoinclusion directives will
 issue a warning to the log and do nothing.
 
+When environment variable "Z3C_AUTOINCLUDE_DEBUG" is set,
+we log which packages are being automatically included.
+We do this in a form that you can copy to a configure.zcml file.
+
+
 ZCML Filenames
 --------------
 
