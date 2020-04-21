@@ -16,10 +16,6 @@ New features:
 
 - Add support for Python 3.8.
 
-Bug fixes:
-
-- *add item here*
-
 
 0.3.9 (2019-03-02)
 ------------------
