@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.4.0.dev0'
+version = '0.4.0'
 __version__ = version
 
 TESTS_REQUIRE = ["zc.buildout", "zope.testing"]
