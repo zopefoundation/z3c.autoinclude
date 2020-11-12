@@ -39,7 +39,6 @@ setup(
         'zope.interface',
         'zope.configuration',
         'zope.schema>=4.2.0',
-        'zc.buildout',
     ],
     tests_require=TESTS_REQUIRE,
     extras_require={'test': TESTS_REQUIRE},
