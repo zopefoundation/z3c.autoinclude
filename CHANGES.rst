@@ -4,14 +4,6 @@ Changes
 0.4.1 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - zc.buildout is not an install dependency, only used in testing.
