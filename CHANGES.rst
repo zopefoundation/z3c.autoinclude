@@ -14,8 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
-
+- zc.buildout is not an install dependency, only used in testing.
 
 0.4.0 (2020-04-21)
 ------------------
