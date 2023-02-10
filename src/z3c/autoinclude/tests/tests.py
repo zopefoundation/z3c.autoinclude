@@ -91,27 +91,13 @@ def testTearDown(test):
 IGNORECASE = doctest.register_optionflag('IGNORECASE')
 
 
-class IgnoreCaseChecker(renormalizing.RENormalizing, object):
-    def __init__(self):
-        super(IgnoreCaseChecker, self).__init__(
-            [
-                # Python 3 drops the u'' prefix on unicode strings
-                (re.compile(r"u('[^']*')"), r"\1"),
-                # Python 3 adds module name to exceptions
-                (
-                    re.compile("pkg_resources.DistributionNotFound"),
-                    r"DistributionNotFound",
-                ),
-            ]
-        )
+class IgnoreCaseChecker(renormalizing.RENormalizing):
 
     def check_output(self, want, got, optionflags):
         if optionflags & IGNORECASE:
             want, got = want.lower(), got.lower()
             # print repr(want), repr(got), optionflags, IGNORECASE
-        return super(
-            IgnoreCaseChecker,
-            self).check_output(
+        return super().check_output(
             want,
             got,
             optionflags)

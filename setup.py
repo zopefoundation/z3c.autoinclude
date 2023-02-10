@@ -3,13 +3,12 @@ from setuptools import setup
 
 
 version = '1.0.dev0'
-__version__ = version
 
 TESTS_REQUIRE = ["zc.buildout", "zope.testing"]
 
 setup(
     name='z3c.autoinclude',
-    version=__version__,
+    version=version,
     description="Automatically include ZCML",
     long_description=(
         open('README.rst').read() + "\n" + open('CHANGES.rst').read()),
@@ -18,9 +17,6 @@ setup(
         "Framework :: Zope :: 3",
         "License :: OSI Approved :: Zope Public License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: Implementation :: CPython",
@@ -28,8 +24,8 @@ setup(
     ],
     keywords='zcml automatic',
     author='Zope Foundation and Contributors',
-    author_email='zope-dev@zope.org',
-    url='https://pypi.org/project/z3c.autoinclude',
+    author_email='zope-dev@zope.dev',
+    url='https://github.com/zopefoundation/z3c.autoinclude',
     license='ZPL',
     packages=find_packages('src'),
     package_dir={
@@ -37,6 +33,7 @@ setup(
     namespace_packages=['z3c'],
     include_package_data=True,
     zip_safe=False,
+    python_requires='>=3.7',
     install_requires=[
         'setuptools',
         'zope.dottedname',
@@ -44,7 +41,6 @@ setup(
         'zope.configuration',
         'zope.schema>=4.2.0',
     ],
-    tests_require=TESTS_REQUIRE,
     extras_require={
         'test': TESTS_REQUIRE},
     entry_points="""

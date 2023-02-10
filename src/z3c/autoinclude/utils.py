@@ -1,6 +1,3 @@
-from __future__ import absolute_import
-from __future__ import print_function
-
 import os
 import sys
 from distutils.util import convert_path
@@ -9,7 +6,7 @@ from pprint import pformat
 from pkg_resources import find_distributions
 
 
-class DistributionManager(object):
+class DistributionManager:
     def __init__(self, dist):
         self.context = dist
 
@@ -49,9 +46,6 @@ class ZCMLInfo(dict):
     def __bool__(self):
         return any(self.values())
 
-    # For Python 2:
-    __nonzero__ = __bool__
-
 
 def subpackageDottedNames(package_path, ns_dottedname=None):
     # we do not look for subpackages in zipped eggs
@@ -63,7 +57,7 @@ def subpackageDottedNames(package_path, ns_dottedname=None):
         full_path = os.path.join(package_path, subpackage_name)
         if isPythonPackage(full_path):
             if ns_dottedname:
-                result.append('%s.%s' % (ns_dottedname, subpackage_name))
+                result.append('{}.{}'.format(ns_dottedname, subpackage_name))
             else:
                 result.append(subpackage_name)
     return sorted(result)
@@ -166,7 +160,7 @@ def namespaceDottedNames(dist):
     try:
         ns_dottednames = list(
             dist.get_metadata_lines('namespace_packages.txt'))
-    except IOError:
+    except OSError:
         ns_dottednames = []
     except KeyError:
         ns_dottednames = []
@@ -236,12 +230,12 @@ def create_report(info):
         dotted_names = info[filename]
         for dotted_name in dotted_names:
             if filename == "overrides.zcml":
-                line = '  <includeOverrides package="%s" file="%s" />' % (
+                line = '  <includeOverrides package="{}" file="{}" />'.format(
                     dotted_name, filename)
             elif filename == "configure.zcml":
                 line = '  <include package="%s" />' % dotted_name
             else:
-                line = '  <include package="%s" file="%s" />' % (
+                line = '  <include package="{}" file="{}" />'.format(
                     dotted_name, filename)
             report.append(line)
     return report

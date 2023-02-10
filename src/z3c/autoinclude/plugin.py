@@ -13,7 +13,7 @@ from z3c.autoinclude.utils import create_report
 logger = logging.getLogger("z3c.autoinclude")
 
 
-class PluginFinder(object):
+class PluginFinder:
     def __init__(self, platform_dottedname):
         self.dottedname = platform_dottedname
 

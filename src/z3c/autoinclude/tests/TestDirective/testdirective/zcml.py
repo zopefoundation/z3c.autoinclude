@@ -14,8 +14,8 @@ class ITestDirective(Interface):
     """Auto-include any ZCML in the dependencies of this package."""
 
     test_string = TextLine(
-        title=u"Test package string",
-        description=u"""
+        title="Test package string",
+        description="""
         Append a value to a global variable to inspect later
         """,
         required=True,

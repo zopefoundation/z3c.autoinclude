@@ -43,8 +43,8 @@ class IIncludeDependenciesDirective(Interface):
     """Auto-include any ZCML in the dependencies of this package."""
 
     package = GlobalObject(
-        title=u"Package to auto-include for",
-        description=u"""
+        title="Package to auto-include for",
+        description="""
         Auto-include all dependencies of this package.
         """,
         required=True,
@@ -86,16 +86,16 @@ class IIncludePluginsDirective(Interface):
     """Auto-include any ZCML in the dependencies of this package."""
 
     package = GlobalObject(
-        title=u"Package to auto-include for",
-        description=u"""
+        title="Package to auto-include for",
+        description="""
         Auto-include all plugins to this package.
         """,
         required=True,
     )
 
     file = NativeStringLine(
-        title=u"ZCML filename to look for",
-        description=u"""
+        title="ZCML filename to look for",
+        description="""
         Name of a particular ZCML file to look for.
         If omitted, autoinclude will scan for standard filenames
         (e.g. meta.zcml, configure.zcml, overrides.zcml)
