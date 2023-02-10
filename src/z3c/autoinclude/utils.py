@@ -1,9 +1,12 @@
-from __future__ import absolute_import, print_function
+from __future__ import absolute_import
+from __future__ import print_function
 
 import os
-from pkg_resources import find_distributions
-from pprint import pformat
 import sys
+from distutils.util import convert_path
+from pprint import pformat
+
+from pkg_resources import find_distributions
 
 
 class DistributionManager(object):
@@ -103,9 +106,8 @@ def distributionForDottedName(package_dottedname):
 
     if len(valid_dists_for_package) == 0:
         raise LookupError(
-            "No distributions found for package `%s`; are you sure it is importable?"
-            % package_dottedname
-        )
+            "No distributions found for package `%s`;"
+            " are you sure it is importable?" % package_dottedname)
 
     if len(valid_dists_for_package) > 1:
         non_namespaced_dists = [
@@ -114,33 +116,36 @@ def distributionForDottedName(package_dottedname):
             if len(ns_packages) == 0
         ]
         if len(non_namespaced_dists) == 0:
-            # if we only have namespace packages at this point,
-            # 'foo.bar' and 'foo.baz', while looking for 'foo', we can
-            # just select the first because the choice has no effect.
-            # However, if possible, we prefer to select the one that matches the package name
-            # if it's the "root" namespace
+            # if we only have namespace packages at this point, 'foo.bar' and
+            # 'foo.baz', while looking for 'foo', we can just select the first
+            # because the choice has no effect. However, if possible, we prefer
+            # to select the one that matches the package name if it's the
+            # "root" namespace
             if '.' not in package_dottedname:
                 for dist, _ in valid_dists_for_package:
                     if dist.project_name == package_dottedname:
                         return dist
 
-            # Otherwise, to be deterministic (because the order depends on both sys.path
-            # and `find_distributions`) we will sort them by project_name and return
-            # the first value.
-            valid_dists_for_package.sort(key=lambda dist_ns: dist_ns[0].project_name)
+            # Otherwise, to be deterministic (because the order depends on both
+            # sys.path and `find_distributions`) we will sort them by
+            # project_name and return the first value.
+            valid_dists_for_package.sort(
+                key=lambda dist_ns: dist_ns[0].project_name)
 
             return valid_dists_for_package[0][0]
 
-        valid_dists_for_package = (
-            non_namespaced_dists
-        )  ### if we have packages 'foo', 'foo.bar', and 'foo.baz', the correct one is 'foo'.
+        # if we have packages 'foo', 'foo.bar', and 'foo.baz', the correct one
+        # is 'foo'.
+        valid_dists_for_package = (non_namespaced_dists)
 
-        ### we really are in trouble if we get into a situation with more than one non-namespaced package at this point.
+        # we really are in trouble if we get into a situation with more than
+        # one non-namespaced package at this point.
         error_msg = '''
-Multiple distributions were found that claim to provide the `%s` package.
-This is most likely because one or more of them uses `%s` as a namespace package,
+Multiple distributions were found that claim to provide the `%s` package. This
+is most likely because one or more of them uses `%s` as a namespace package,
 but forgot to declare it in the `namespace_packages` section of its `setup.py`.
-Please make any necessary adjustments and reinstall the modified distribution(s).
+Please make any necessary adjustments and reinstall the modified
+distribution(s).
 
 Distributions found: %s
 '''
@@ -159,7 +164,8 @@ def namespaceDottedNames(dist):
     Return a list of dotted names of all namespace packages in a distribution.
     """
     try:
-        ns_dottednames = list(dist.get_metadata_lines('namespace_packages.txt'))
+        ns_dottednames = list(
+            dist.get_metadata_lines('namespace_packages.txt'))
     except IOError:
         ns_dottednames = []
     except KeyError:
@@ -177,12 +183,11 @@ def isUnzippedEgg(path):
     return os.path.isdir(path)
 
 
-### cargo-culted from setuptools 0.6c9's __init__.py;
+# cargo-culted from setuptools 0.6c9's __init__.py;
 #   importing setuptools is unsafe, but i can't find any
 #   way to get the information that find_packages provides
 #   using pkg_resources and i can't figure out a way to
 #   avoid needing it.
-from distutils.util import convert_path
 
 
 def find_packages(where='.', exclude=()):
@@ -231,10 +236,12 @@ def create_report(info):
         dotted_names = info[filename]
         for dotted_name in dotted_names:
             if filename == "overrides.zcml":
-                line = '  <includeOverrides package="%s" file="%s" />' % (dotted_name, filename)
+                line = '  <includeOverrides package="%s" file="%s" />' % (
+                    dotted_name, filename)
             elif filename == "configure.zcml":
-                line = '  <include package="%s" />'% dotted_name
+                line = '  <include package="%s" />' % dotted_name
             else:
-                line = '  <include package="%s" file="%s" />'% (dotted_name, filename)
+                line = '  <include package="%s" file="%s" />' % (
+                    dotted_name, filename)
             report.append(line)
     return report

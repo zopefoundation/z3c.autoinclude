@@ -1,5 +1,6 @@
-from setuptools import setup, find_packages
-import sys, os
+from setuptools import find_packages
+from setuptools import setup
+
 
 version = '0.0'
 
@@ -9,7 +10,7 @@ setup(
     description="",
     long_description="""\
 """,
-    classifiers=[],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    classifiers=[],
     keywords='',
     author='',
     author_email='',

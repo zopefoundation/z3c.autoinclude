@@ -1,4 +1,6 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
+
 
 version = '0.4.2.dev0'
 __version__ = version
@@ -9,7 +11,8 @@ setup(
     name='z3c.autoinclude',
     version=__version__,
     description="Automatically include ZCML",
-    long_description=(open('README.rst').read() + "\n" + open('CHANGES.rst').read()),
+    long_description=(
+        open('README.rst').read() + "\n" + open('CHANGES.rst').read()),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Framework :: Zope :: 3",
@@ -29,7 +32,8 @@ setup(
     url='https://pypi.org/project/z3c.autoinclude',
     license='ZPL',
     packages=find_packages('src'),
-    package_dir={'': 'src'},
+    package_dir={
+        '': 'src'},
     namespace_packages=['z3c'],
     include_package_data=True,
     zip_safe=False,
@@ -41,7 +45,8 @@ setup(
         'zope.schema>=4.2.0',
     ],
     tests_require=TESTS_REQUIRE,
-    extras_require={'test': TESTS_REQUIRE},
+    extras_require={
+        'test': TESTS_REQUIRE},
     entry_points="""
     [console_scripts]
     autoinclude-test = z3c.autoinclude.tests.tests:interactive_testing_env

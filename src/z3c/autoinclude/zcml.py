@@ -1,15 +1,17 @@
-from zope.interface import Interface
-from zope.configuration.xmlconfig import include, includeOverrides
+import logging
+
 from zope.configuration.fields import GlobalObject
+from zope.configuration.xmlconfig import include
+from zope.configuration.xmlconfig import includeOverrides
 from zope.dottedname.resolve import resolve
+from zope.interface import Interface
 from zope.schema import NativeStringLine
 
 from z3c.autoinclude import api
 from z3c.autoinclude.dependency import DependencyFinder
-from z3c.autoinclude.utils import distributionForPackage
 from z3c.autoinclude.plugin import PluginFinder
+from z3c.autoinclude.utils import distributionForPackage
 
-import logging
 
 log = logging.getLogger("z3c.autoinclude")
 
@@ -17,7 +19,7 @@ log = logging.getLogger("z3c.autoinclude")
 def includeZCMLGroup(_context, info, filename, override=False):
     includable_zcml = info[filename]
     # ^^ a key error would mean that we are trying to include a group of ZCML
-    #    with a filename that wasn't ever searched for. that *should* be an error
+    # with a filename that wasn't ever searched for. that *should* be an error
 
     zcml_context = repr(_context.info)
 
@@ -59,7 +61,8 @@ def includeDependenciesDirective(_context, package):
         return
 
     dist = distributionForPackage(package)
-    info = DependencyFinder(dist).includableInfo(['configure.zcml', 'meta.zcml'])
+    info = DependencyFinder(dist).includableInfo(
+        ['configure.zcml', 'meta.zcml'])
 
     includeZCMLGroup(_context, info, 'meta.zcml')
     includeZCMLGroup(_context, info, 'configure.zcml')

@@ -87,7 +87,7 @@ Note that the individual lists within ``includableInfo`` preserve the
 package order defined in ``setup.py``::
 
     >>> pprint(a_include_finder.includableInfo(['configure.zcml', 'meta.zcml']))
-    {'configure.zcml': ['b.c'], 'meta.zcml': ['z3c.autoinclude', 'testdirective']}
+    {'configure.zcml': ['b.c'], 'meta.zcml': ['testdirective']}
 
 For a nested namespace package with two siblings ``SiblingPackage``,
 we should get the same expected results. The sibling package

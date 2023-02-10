@@ -1,10 +1,13 @@
-import re
-import os
 import doctest
+import os
+import re
 import sys
 import unittest
 
+from pkg_resources import working_set
+
 from zc.buildout import testing
+from zc.buildout.easy_install import install
 from zope.testing import renormalizing
 
 
@@ -28,10 +31,6 @@ test_packages = [
 ]
 
 
-from zc.buildout.easy_install import install
-from pkg_resources import working_set
-
-
 def install_projects(projects, target_dir):
     links = []
     for project in projects:
@@ -39,9 +38,8 @@ def install_projects(projects, target_dir):
         dist_dir = os.path.join(project_dir, 'dist')
         if os.path.isdir(dist_dir):
             testing.rmdir(dist_dir)
-        dummy = testing.system(
-            "%s setup %s bdist_egg" % (os.path.join('bin', 'buildout'), project_dir)
-        )
+        testing.system("%s setup %s bdist_egg" %
+                       (os.path.join('bin', 'buildout'), project_dir))
         links.append(dist_dir)
 
     new_working_set = install(
@@ -55,7 +53,7 @@ def install_projects(projects, target_dir):
 
 
 def interactive_testing_env():
-    """ an interactive debugger with the testing environment set up for free """
+    """An interactive debugger with the testing environment set up for free."""
 
     import tempfile
 
@@ -111,7 +109,12 @@ class IgnoreCaseChecker(renormalizing.RENormalizing, object):
         if optionflags & IGNORECASE:
             want, got = want.lower(), got.lower()
             # print repr(want), repr(got), optionflags, IGNORECASE
-        return super(IgnoreCaseChecker, self).check_output(want, got, optionflags)
+        return super(
+            IgnoreCaseChecker,
+            self).check_output(
+            want,
+            got,
+            optionflags)
 
 
 def test_suite():
@@ -142,4 +145,5 @@ def test_suite():
 if __name__ == '__main__':
     import zope.testing.testrunner
 
-    zope.testing.testrunner.run(['--test-path', '/home/egj/z3c.autoinclude/src'])
+    zope.testing.testrunner.run(
+        ['--test-path', '/home/egj/z3c.autoinclude/src'])
