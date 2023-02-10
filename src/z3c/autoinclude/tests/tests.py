@@ -1,6 +1,5 @@
 import doctest
 import os
-import re
 import sys
 import unittest
 
