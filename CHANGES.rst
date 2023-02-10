@@ -1,8 +1,8 @@
 Changes
 =======
 
-0.4.2 (unreleased)
-------------------
+1.0 (unreleased)
+----------------
 
 Breaking changes:
 
