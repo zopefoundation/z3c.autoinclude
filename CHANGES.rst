@@ -1,20 +1,21 @@
 Changes
 =======
 
-0.4.2 (unreleased)
-------------------
+1.0 (unreleased)
+----------------
 
 Breaking changes:
 
-- *add item here*
+- Drop support for Python 2.7, 3.5, 3.6.
 
 New features:
 
-- *add item here*
+- Add support for Python 3.9, 3.10, 3.11.
 
 Bug fixes:
 
 - *add item here*
+
 
 0.4.1 (2020-11-12)
 ------------------

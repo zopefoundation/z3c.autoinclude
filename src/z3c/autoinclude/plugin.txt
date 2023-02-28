@@ -75,7 +75,7 @@ should accurately reflect that the ``FooPackage`` ZCML has been loaded::
     >>> dummy = xmlconfig.file(resource_filename('basepackage', 'configure.zcml'),
     ...                        package=basepackage)
     >>> test_log
-    [u'foo has been loaded']
+    ['foo has been loaded']
 
 ``base2`` is a namespace package. ``base2.plug`` is a package that
 defines a plugin for base2; it extends ``base2``s namespace.
@@ -91,4 +91,4 @@ This also tests that specifying a file with ``includePlugins`` works.
 
     >>> dummy = xmlconfig.file(filename, package=base2)
     >>> test_log
-    [u'base2.plug has been loaded']
+    ['base2.plug has been loaded']

@@ -87,7 +87,7 @@ Note that the individual lists within ``includableInfo`` preserve the
 package order defined in ``setup.py``::
 
     >>> pprint(a_include_finder.includableInfo(['configure.zcml', 'meta.zcml']))
-    {'configure.zcml': ['b.c'], 'meta.zcml': ['z3c.autoinclude', 'testdirective']}
+    {'configure.zcml': ['b.c'], 'meta.zcml': ['testdirective']}
 
 For a nested namespace package with two siblings ``SiblingPackage``,
 we should get the same expected results. The sibling package
@@ -127,9 +127,9 @@ order::
     ...                        package=a)
     >>> from testdirective.zcml import test_log
     >>> pprint(test_log, width=30)
-    [u'f.g meta has been loaded',
-     u'f.h has been loaded',
-     u'BCPackage has been loaded']
+    ['f.g meta has been loaded',
+     'f.h has been loaded',
+     'BCPackage has been loaded']
 
 There is also a directive for including overrides, which calls
 ``autoIncludeOverridesDirective``; however, I have no idea how to test
@@ -154,7 +154,7 @@ Note that it will not catch DistributionNotFound errors::
      >>> package_includes('NonexistentPackage')
      Traceback (most recent call last):
      ...
-     DistributionNotFound: ...
+     pkg_resources.DistributionNotFound: ...
 
 We do not want to break when there are problems with some dependencies.
 If a dependency is not found or is not a module, we should not try to load its zcml.
