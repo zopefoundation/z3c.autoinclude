@@ -12,10 +12,6 @@ New features:
 
 - Add support for Python 3.9, 3.10, 3.11.
 
-Bug fixes:
-
-- *add item here*
-
 
 0.4.1 (2020-11-12)
 ------------------
