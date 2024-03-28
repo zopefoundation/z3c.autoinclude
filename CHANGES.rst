@@ -4,7 +4,7 @@ Changes
 1.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add support for implicit namespaces (PEP 420).
 
 
 1.0 (2023-03-01)

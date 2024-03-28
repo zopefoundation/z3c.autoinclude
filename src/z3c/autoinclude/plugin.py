@@ -1,7 +1,7 @@
 import logging
 import os
 
-from pkg_resources import iter_entry_points
+from importlib.metadata import entry_points
 from pkg_resources import resource_filename
 
 from z3c.autoinclude.api import debug_enabled
@@ -43,8 +43,8 @@ class PluginFinder:
 
 
 def find_plugins(dotted_name):
-    for ep in iter_entry_points('z3c.autoinclude.plugin'):
-        if ep.module_name == dotted_name:
+    for ep in entry_points().get('z3c.autoinclude.plugin', []):
+        if ep.value == dotted_name:
             yield ep.dist
 
 
