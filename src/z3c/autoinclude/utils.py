@@ -23,7 +23,12 @@ class DistributionManager:
         themselves. If no namespace packages exist, return those packages that
         are directly in the distribution.
         """
-        dist_path = self.context.location
+        try:
+            # importlib.metadata.PathDistribution
+            dist_path = self.context.locate_file('.')
+        except AttributeError:
+            # pkg_resources.Distribution
+            dist_path = self.context.location
         ns_dottednames = self.namespaceDottedNames()
         if not ns_dottednames:
             return subpackageDottedNames(dist_path)
@@ -158,12 +163,21 @@ def namespaceDottedNames(dist):
     Return a list of dotted names of all namespace packages in a distribution.
     """
     try:
+        # pkg_resources.Distribution
         ns_dottednames = list(
             dist.get_metadata_lines('namespace_packages.txt'))
     except OSError:
         ns_dottednames = []
     except KeyError:
         ns_dottednames = []
+    except AttributeError:
+        # importlib.metadata.PathDistribution: no namespace info
+        name, *_ = dist.name.rsplit('.', 1)
+        names = []
+        ns_dottednames = []
+        for name in name.split('.'):
+            names.append(name)
+            ns_dottednames.append('.'.join(names))
     return ns_dottednames
 
 
