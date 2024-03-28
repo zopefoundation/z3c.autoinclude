@@ -15,8 +15,8 @@ Given a module name, we can ask for distributions which have been broadcast
 themselves as plugging into that module via entry points::
 
     >>> from z3c.autoinclude.plugin import find_plugins
-    >>> sorted((x.name, x.version) for x in find_plugins('basepackage')) # doctest: +IGNORECASE
-    [('FooPackage', '0.0'), ('TestDirective', '0.0')]
+    >>> sorted(find_plugins('basepackage')) # doctest: +IGNORECASE
+    [FooPackage 0.0 (...), TestDirective 0.0 (...)]
 
 Armed with a valid module name we can find the ZCML files within it
 which must be loaded::

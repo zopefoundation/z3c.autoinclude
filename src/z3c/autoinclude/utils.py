@@ -171,12 +171,13 @@ def namespaceDottedNames(dist):
     except KeyError:
         ns_dottednames = []
     except AttributeError:
-        # importlib.metadata.PathDistribution
-        namespace_packages = dist._path / 'namespace_packages.txt'
-        if namespace_packages.exists():
-            ns_dottednames = namespace_packages.read_text().splitlines()
-        else:
-            ns_dottednames = []
+        # importlib.metadata.PathDistribution: no namespace info
+        name, *_ = dist.name.rsplit('.', 1)
+        names = []
+        ns_dottednames = []
+        for name in name.split('.'):
+            names.append(name)
+            ns_dottednames.append('.'.join(names))
     return ns_dottednames
 
 
