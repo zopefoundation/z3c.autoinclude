@@ -57,7 +57,7 @@ def subpackageDottedNames(package_path, ns_dottedname=None):
         full_path = os.path.join(package_path, subpackage_name)
         if isPythonPackage(full_path):
             if ns_dottedname:
-                result.append('{}.{}'.format(ns_dottedname, subpackage_name))
+                result.append(f'{ns_dottedname}.{subpackage_name}')
             else:
                 result.append(subpackage_name)
     return sorted(result)
